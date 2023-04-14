@@ -1,0 +1,33 @@
+import java.util.Date;
+
+public class Transaction {
+    final int id;
+    final User sender;
+    final User receiver;
+    final double amount;
+    final Date date;
+
+    public Transaction(int id, User sender, User receiver, double amount, Date date) {
+        this.id = id;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.amount = amount;
+        this.date = date;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public User getSender() {
+        return sender;
+    }
+
+    public User getReceiver() {
+        return receiver;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+}
