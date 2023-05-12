@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Database {
-    private JSONParser parser = new JSONParser();
+    //private JSONParser parser = new JSONParser();
 
     public ArrayList<User> getUsers() {
         return new ArrayList<>();
