@@ -125,7 +125,18 @@ public class TransactionGraph {
         public ArrayList<Transaction> giveTransactions() {
             return listOfTransactions;
         }
+
+    public List<Transaction> getTransactionsForUser(User user) {
+        List<Transaction> transactionsForUser = new ArrayList<>();
+        for (Transaction transaction : listOfTransactions) {
+            if (transaction.getSender().equals(user) || transaction.getReceiver().equals(user)) {
+                transactionsForUser.add(transaction);
+            }
+        }
+        return transactionsForUser;
     }
+
+}
 
 
 
