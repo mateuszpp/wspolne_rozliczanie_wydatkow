@@ -3,6 +3,7 @@ import java.util.*;
 public class TransactionGraph {
     ArrayList<Transaction> listOfTransactions;
     ArrayList<User> users;
+    ArrayList<Transaction> simplifiedList;
     public TransactionGraph(ArrayList<Transaction> listOfTransactions, ArrayList<User> users) {
         this.listOfTransactions = listOfTransactions;
         this.users = new ArrayList<User>(); // inicjalizacja pola users
@@ -28,7 +29,7 @@ public class TransactionGraph {
     }
 
     public List<Transaction> simplify(ArrayList<User> users, ArrayList<Transaction> listOfTransactions) {
-        List<Transaction> simplifiedList = new ArrayList<>();
+        ArrayList<Transaction> simplifiedList = new ArrayList<>();
 
         // Znajdź niepołączone podgrafy
         List<Set<User>> subGraphs = findSubGraphs(users, listOfTransactions);
@@ -61,6 +62,7 @@ public class TransactionGraph {
         }
 
          */
+        this.simplifiedList = simplifiedList;
         return simplifiedList;
     }
     public List<Set<User>> findSubGraphs(ArrayList<User> users, ArrayList<Transaction> listOfTransactions) {
@@ -126,15 +128,36 @@ public class TransactionGraph {
             return listOfTransactions;
         }
 
-    public List<Transaction> getTransactionsForUser(User user) {
+
+    /*public List<Transaction> getUserTransactions(User user, ArrayList<Transaction> listofTransactions) {
         List<Transaction> transactionsForUser = new ArrayList<>();
-        for (Transaction transaction : listOfTransactions) {
+        for (Transaction transaction : simplify(users, listOfTransactions)) {
             if (transaction.getSender().equals(user) || transaction.getReceiver().equals(user)) {
                 transactionsForUser.add(transaction);
             }
         }
         return transactionsForUser;
     }
+
+     */
+    public List<Transaction> getTransactionsForUser(User user) {
+        if (simplifiedList == null) {
+            simplify(users, listOfTransactions);
+        }
+
+        // Create a new list to store the user's transactions
+        List<Transaction> userTransactions = new ArrayList<>();
+
+        // Loop through the simplified list and add transactions that involve the user
+        for (Transaction transaction : simplifiedList) {
+            if (transaction.getSender().equals(user) || transaction.getReceiver().equals(user)) {
+                userTransactions.add(transaction);
+            }
+        }
+        return userTransactions;
+    }
+
+
 
 }
 

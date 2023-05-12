@@ -3,6 +3,7 @@ import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.swing.*;
 
 public class App extends JFrame {
@@ -43,6 +44,7 @@ public class App extends JFrame {
 
         // Tworzymy listę transakcji
         ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+
         Transaction tran1 = new Transaction(1, user1, user3, 750.0, LocalDate.of(2021, 4, 1));
         Transaction tran2 =new Transaction(2, user1, user2, 200.0, LocalDate.of(2021, 4, 2));
          Transaction tran3 =new Transaction(2, user3, user2, 250.0, LocalDate.of(2021, 4, 2));
@@ -88,7 +90,10 @@ public class App extends JFrame {
         // Wykonujemy uproszczenie transakcji
 
          System.out.println("lista uproszczonych transakcji");
+
          System.out.println(transactionGraph.simplify(transactionGraph.users, transactionGraph.listOfTransactions));
+
+         System.out.println(transactionGraph.getTransactionsForUser(user3));
 
 
     }
