@@ -4,32 +4,52 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
+import java.io.Serializable;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
-
 @Entity
-public class Users {
-    private @Id @GeneratedValue Long id;
+public class Users implements Serializable {
     private String username;
     private String hashedPasswd;
 
+    public double balance;
+    @Id @GeneratedValue
+    private Long id;
 
-    public Long getId() {
-        return id;
+    public String getHashedPasswd() {
+        return hashedPasswd;
+    }
+    public Users(){}
+    public Users(String username, String hashedPasswd, double balance) throws NoSuchAlgorithmException {
+        this.username = username;
+        this.hashedPasswd = hashPassword(hashedPasswd);
+        this.balance=balance;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public String getHashedPasswd() {
-        return hashedPasswd;
+
+    private String hashPassword(String passwd) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] hashedBytes = md.digest(passwd.getBytes());
+        StringBuilder sb = new StringBuilder();
+        for (byte b : hashedBytes) {
+            sb.append(Integer.toHexString((b & 0xFF) + 0x100).substring(1));
+        }
+        return sb.toString();
     }
 
-    Users(){}
-    public Users(String username, String hashedPasswd) {
-        this.username = username;
-        this.hashedPasswd = hashedPasswd;
+    public double getBalance() {
+        return balance;
     }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -51,5 +71,13 @@ public class Users {
                 ", username='" + username + '\'' +
                 ", hashedPasswd='" + hashedPasswd + '\'' +
                 '}';
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 }
