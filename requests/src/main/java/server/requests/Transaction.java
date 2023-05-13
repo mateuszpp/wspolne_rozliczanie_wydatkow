@@ -28,6 +28,9 @@ public class Transaction {
         this.date = date;
     }
 
+    public int getIdd() {
+        return id;
+    }
 
     public Users getSender() {
         return sender;
@@ -44,8 +47,6 @@ public class Transaction {
     @Override
     public String toString() {
         return "Transaction #" + id + " | " + sender.getUsername() + " -> " + receiver.getUsername() + " | Amount: " + amount + " | Date: " + date;
-        //return "Transaction #" + id + " | "  + " -> " + " | Amount: " + amount + " | Date: " + date;
     }
-
-
 }
+
