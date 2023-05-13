@@ -1,25 +1,27 @@
 package server.requests;
-
 import jakarta.persistence.*;
-import server.requests.Users;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
-
 @Entity
-public class Transaction extends Users{
-    @Id
-     int id;
-     @ManyToOne
-     Users sender;
-     @ManyToOne
-     Users receiver;
-     double amount;
-    LocalDate date;
-    public Transaction(){}
-    public Transaction(int id, Users sender, Users receiver, double amount, LocalDate date) {
-        this.id = id;
+public class Transaction {
+    private @Id @GeneratedValue Long id;
+
+    @ManyToOne
+    @JoinColumn(name="user_sender_id", nullable = false)
+    private Users sender;
+
+    @ManyToOne
+    @JoinColumn(name="user_receiver_id", nullable = false)
+    private Users receiver;
+    private double amount;
+    private LocalDateTime date;
+
+    Transaction() {};
+
+    public Transaction(Users sender, Users receiver, double amount, LocalDateTime date) {
         this.sender = sender;
         this.receiver = receiver;
         this.amount = amount;

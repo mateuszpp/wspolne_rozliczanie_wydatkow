@@ -3,6 +3,7 @@ package server.requests;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 import java.io.Serializable;
 import java.security.MessageDigest;

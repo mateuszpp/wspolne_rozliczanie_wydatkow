@@ -23,7 +23,6 @@ public class LoadDB {
             log.info("Preloading " + repository.save(kuba2));
             log.info("Preloading " + transactionrepository.save(new Transaction(1 ,kuba ,kuba2 ,30.0 ,LocalDate.now() )));
         };
-
     }
 
 
