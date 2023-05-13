@@ -10,11 +10,11 @@ public class Transaction {
     private @Id @GeneratedValue Long id;
 
     @ManyToOne
-    @JoinColumn(name="user_sender_id")
+    @JoinColumn(name="user_sender_id", nullable = false)
     private Users sender;
 
     @ManyToOne
-    @JoinColumn(name="user_receiver_id")
+    @JoinColumn(name="user_receiver_id", nullable = false)
     private Users receiver;
     private double amount;
     private LocalDateTime date;
@@ -43,8 +43,7 @@ public class Transaction {
 
     @Override
     public String toString() {
-        //return "Transaction #" + id + " | " + sender.getUsername() + " -> " + receiver.getUsername() + " | Amount: " + amount + " | Date: " + date;
-        return "Transaction #" + id + " | "  + " -> " + " | Amount: " + amount + " | Date: " + date;
+        return "Transaction #" + id + " | " + sender.getUsername() + " -> " + receiver.getUsername() + " | Amount: " + amount + " | Date: " + date;
     }
 
 
