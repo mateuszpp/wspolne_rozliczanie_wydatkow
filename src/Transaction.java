@@ -4,10 +4,10 @@ public class Transaction {
     final int id;
     final User sender;
     final User receiver;
-    final double amount;
+    final int amount;
     final Date date;
 
-    public Transaction(int id, User sender, User receiver, double amount, Date date) {
+    public Transaction(int id, User sender, User receiver, int amount, Date date) {
         this.id = id;
         this.sender = sender;
         this.receiver = receiver;
@@ -27,7 +27,7 @@ public class Transaction {
         return receiver;
     }
 
-    public double getAmount() {
+    public int getAmount() {
         return amount;
     }
 }
