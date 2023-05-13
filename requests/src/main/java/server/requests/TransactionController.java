@@ -14,6 +14,10 @@ public class TransactionController {
         this.transactionrepository = transactionRepository;
         transactionRepository.findAll();
     }
+    @GetMapping("/Transaction")
+    List<Transaction> all3(){
+        return transactionrepository.findAll();
+    }
     @GetMapping("/Transaction/{id}")
     List<Transaction> TransactionById(@PathVariable int id){
         return transactionrepository.findById(id);

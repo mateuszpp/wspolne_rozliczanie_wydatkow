@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-public interface TransactionRepository extends JpaRepository<Users,Long>{
+public interface TransactionRepository extends JpaRepository<Transaction,Users>{
 
     @Query("FROM Transaction WHERE id = :id")
     List<Transaction> findById(@Param("id") int id);
