@@ -1,11 +1,9 @@
-package server.requests;
+package server.app.Users;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import server.app.Transaction.Transaction;
+import server.app.Transaction.TransactionRepository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -38,16 +36,7 @@ public class UsersController {
         return usersRepository.findByName(name);
     }
 
-    @PostMapping("/addTransaction")
-    public ResponseEntity<String> addTransaction(@RequestBody UserTransactionRequest utRequest){
-        Users sender = usersRepository.findByName(utRequest.sender);
-        Users receiver = usersRepository.findByName(utRequest.receiver);
 
-        Transaction transaction = new Transaction(sender,receiver,utRequest.amount, LocalDateTime.now());
-        transactionRepository.save(transaction);
-
-        return new ResponseEntity<String>("Record saved successfully", HttpStatus.CREATED);
-    }
 
     @GetMapping("/transactions")
     List<Transaction> allTransactions(){return transactionRepository.findAll();}

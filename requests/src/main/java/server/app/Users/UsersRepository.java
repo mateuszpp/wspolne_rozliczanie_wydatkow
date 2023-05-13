@@ -1,8 +1,9 @@
-package server.requests;
+package server.app.Users;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import server.app.Users.Users;
 
 import java.util.List;
 

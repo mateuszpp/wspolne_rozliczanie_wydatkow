@@ -1,9 +1,8 @@
-package server.requests;
+package server.app.Transaction;
 import jakarta.persistence.*;
+import server.app.Users.Users;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 public class Transaction {
@@ -26,10 +25,6 @@ public class Transaction {
         this.receiver = receiver;
         this.amount = amount;
         this.date = date;
-    }
-
-    public int getIdd() {
-        return id;
     }
 
     public Users getSender() {

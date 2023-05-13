@@ -1,6 +1,4 @@
-package server.requests;
-
-import java.time.LocalDate;
+package server.app.requests;
 
 public class UserTransactionRequest {
 
