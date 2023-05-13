@@ -20,11 +20,4 @@ public class LoadDB {
         };
     }
 
-    @Bean
-    CommandLineRunner initTransactionsDatabase(TransactionRepository repository){
-        return args -> {
-            log.info("Preloading " + repository.save(new Transaction()));
-            log.info("Preloading " + repository.save(new Transaction()));
-        };
-    }
 }

@@ -5,7 +5,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -15,7 +14,6 @@ public class Users {
     private String username;
     private String hashedPasswd;
 
-    private List<Transaction> transactions;
 
     public Long getId() {
         return id;
