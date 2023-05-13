@@ -3,8 +3,11 @@ package server.requests;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Users {
@@ -12,6 +15,7 @@ public class Users {
     private String username;
     private String hashedPasswd;
 
+    private List<Transaction> transactions;
 
     public Long getId() {
         return id;
@@ -52,4 +56,5 @@ public class Users {
                 ", hashedPasswd='" + hashedPasswd + '\'' +
                 '}';
     }
+
 }

@@ -12,12 +12,19 @@ public class LoadDB {
     private static final Logger log = LoggerFactory.getLogger(LoadDB.class);
 
     @Bean
-    CommandLineRunner initDatabase(UsersRepository repository) {
+    CommandLineRunner initUsersDatabase(UsersRepository repository) {
 
         return args -> {
             log.info("Preloading " + repository.save(new Users("szwedson", "asdfasdf")));
             log.info("Preloading " + repository.save(new Users("szwedson2", "asdfasdf2")));
         };
+    }
 
+    @Bean
+    CommandLineRunner initTransactionsDatabase(TransactionRepository repository){
+        return args -> {
+            log.info("Preloading " + repository.save(new Transaction()));
+            log.info("Preloading " + repository.save(new Transaction()));
+        };
     }
 }

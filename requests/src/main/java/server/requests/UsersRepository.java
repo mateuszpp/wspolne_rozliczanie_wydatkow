@@ -11,6 +11,6 @@ public interface UsersRepository extends JpaRepository<Users,Long> {
     List<Users> findBySzwedson();
 
     @Query("FROM Users WHERE username = :name")
-    List<Users> findByName(@Param("name") String name);
+    Users findByName(@Param("name") String name);
 
 }
