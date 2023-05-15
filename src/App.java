@@ -91,7 +91,7 @@ public class App extends JFrame {
 
          System.out.println("lista uproszczonych transakcji");
 
-         System.out.println(transactionGraph.simplify(transactionGraph.users, transactionGraph.listOfTransactions));
+        // System.out.println(transactionGraph.simplify(transactionGraph.users, transactionGraph.listOfTransactions));
 
          System.out.println(transactionGraph.getTransactionsForUser(user3));
 

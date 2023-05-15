@@ -22,8 +22,8 @@ public class TransactionGraphTest {
     }
 
     @Test
-    public void testExecutionTime() throws NoSuchAlgorithmException {
-        // W najgorszym przypadku wszystkie transakcje będą między dwoma osobami, a użytkowników będzie bardzo dużo
+    public void testWorstExecutionTime() throws NoSuchAlgorithmException {
+
         int numUsers = 10000;
         for (int i = 0; i < numUsers; i++) {
             users.add(new User("User", 10,"password",0));
@@ -42,12 +42,12 @@ public class TransactionGraphTest {
         graph.simplify(users, transactions);
         long endTime = System.currentTimeMillis();
         long duration = endTime - startTime;
-        assertTrue(duration < 1000); // Oczekiwany czas wykonania: poniżej 1 sekundy
+        assertTrue(duration < 1000);
     }
 
     @Test
     public void testAverageCaseExecutionTime() throws NoSuchAlgorithmException {
-        // W przypadku średnim użytkowników będzie mniej, a transakcje będą między różnymi osobami
+
         int numUsers = 1000;
         for (int i = 0; i < numUsers; i++) {
             users.add(new User("User", 10,"password",0));
@@ -66,6 +66,6 @@ public class TransactionGraphTest {
         graph.simplify(users, transactions);
         long endTime = System.currentTimeMillis();
         long duration = endTime - startTime;
-        assertTrue(duration < 100); // Oczekiwany czas wykonania: poniżej 0,1 sekundy
+        assertTrue(duration < 100);
     }
 }

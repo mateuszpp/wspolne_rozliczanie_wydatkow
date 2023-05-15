@@ -4,19 +4,25 @@ public class TransactionGraph {
     ArrayList<Transaction> listOfTransactions;
     ArrayList<User> users;
     ArrayList<Transaction> simplifiedList;
+    private int lastTransactionId =0;
+
+    private int getNextTransactionId() {
+        lastTransactionId++;
+        return lastTransactionId;
+    }
     public TransactionGraph(ArrayList<Transaction> listOfTransactions, ArrayList<User> users) {
         this.listOfTransactions = listOfTransactions;
-        this.users = new ArrayList<User>(); // inicjalizacja pola users
+        this.users = new ArrayList<User>();
     }
     public void addTransaction(Transaction transaction) {
-        // Sprawdź, czy użytkownicy transakcji są już na liście użytkowników
+
         if (!users.contains(transaction.getSender())) {
             users.add(transaction.getSender());
         }
         if (!users.contains(transaction.getReceiver())) {
             users.add(transaction.getReceiver());
         }
-        // Zaktualizuj saldo użytkowników
+
         User sender = transaction.getSender();
         User receiver = transaction.getReceiver();
         double amount = transaction.getAmount();
@@ -24,17 +30,18 @@ public class TransactionGraph {
         sender.setBalance(sender.getBalance() - amount);
         receiver.setBalance(receiver.getBalance() + amount);
 
-        // Dodaj transakcję do listy transakcji
         listOfTransactions.add(transaction);
+        //simplify(users, listOfTransactions); //?? im not sure if it should be there, however i think that the graph should be simplified every time there is new added transaction
     }
 
     public List<Transaction> simplify(ArrayList<User> users, ArrayList<Transaction> listOfTransactions) {
         ArrayList<Transaction> simplifiedList = new ArrayList<>();
 
-        // Znajdź niepołączone podgrafy
+        // find not connected subgraphs
         List<Set<User>> subGraphs = findSubGraphs(users, listOfTransactions);
 
         // Dla każdego niepołączonego podgrafu znajdź najkrótszą ścieżkę i dokonaj uproszczenia
+        //for each not connected subgraph find the shortest path and make simplification
         for (Set<User> subGraph : subGraphs) {
             ArrayList<User> subGraphUsers = new ArrayList<>(subGraph);
 
@@ -50,18 +57,14 @@ public class TransactionGraph {
                 } else {
                     transactionsize = Math.abs(debitor.getBalance());
                 }
-                Transaction Simplifiedtransaction = new Transaction(0, debitor, borrower, transactionsize, LocalDate.now());
+                Transaction Simplifiedtransaction = new Transaction(getNextTransactionId(), debitor, borrower, transactionsize, LocalDate.now());
                 simplifiedList.add(Simplifiedtransaction);
 
                 debitor.setBalance(debitorbalance - transactionsize);
                 borrower.setBalance(borrowerbalance + transactionsize);
             }
         }
-        /*for (Transaction transaction : simplifiedList) {
-            System.out.println(transaction.toString());
-        }
 
-         */
         this.simplifiedList = simplifiedList;
         return simplifiedList;
     }
@@ -128,22 +131,8 @@ public class TransactionGraph {
             return listOfTransactions;
         }
 
-
-    /*public List<Transaction> getUserTransactions(User user, ArrayList<Transaction> listofTransactions) {
-        List<Transaction> transactionsForUser = new ArrayList<>();
-        for (Transaction transaction : simplify(users, listOfTransactions)) {
-            if (transaction.getSender().equals(user) || transaction.getReceiver().equals(user)) {
-                transactionsForUser.add(transaction);
-            }
-        }
-        return transactionsForUser;
-    }
-
-     */
     public List<Transaction> getTransactionsForUser(User user) {
-        if (simplifiedList == null) {
             simplify(users, listOfTransactions);
-        }
 
         // Create a new list to store the user's transactions
         List<Transaction> userTransactions = new ArrayList<>();
@@ -156,9 +145,6 @@ public class TransactionGraph {
         }
         return userTransactions;
     }
-
-
-
 }
 
 
