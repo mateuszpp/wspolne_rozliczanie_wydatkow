@@ -45,19 +45,19 @@ public class App extends JFrame {
         // Tworzymy listę transakcji
         ArrayList<Transaction> transactions = new ArrayList<Transaction>();
 
-        Transaction tran1 = new Transaction(1, user1, user3, 750.0, LocalDate.of(2021, 4, 1));
-        Transaction tran2 =new Transaction(2, user1, user2, 200.0, LocalDate.of(2021, 4, 2));
-         Transaction tran3 =new Transaction(2, user3, user2, 250.0, LocalDate.of(2021, 4, 2));
-         Transaction tran6 =new Transaction(2, user1, user2, 100.0, LocalDate.of(2021, 4, 2));
-         Transaction tran8 =new Transaction(2, user2, user3, 1000.0, LocalDate.of(2021, 4, 2));
-
-
-
-        Transaction tran4 =new Transaction(4, user4, user5, 600.0, LocalDate.of(2021, 4, 4));
-        Transaction tran7 =new Transaction(7, user4, user6, 800.0, LocalDate.of(2021, 4, 7));
-         Transaction tran9 =new Transaction(7, user4, user5, 1200.0, LocalDate.of(2021, 4, 7));
-         Transaction tran10 =new Transaction(7, user6, user5, 200.0, LocalDate.of(2021, 4, 7));
-         Transaction tran11=new Transaction(7, user4, user6, 400.0, LocalDate.of(2021, 4, 7));
+//        Transaction tran1 = new Transaction(1, user1, user3, 750.0, LocalDate.of(2021, 4, 1));
+//        Transaction tran2 =new Transaction(2, user1, user2, 200.0, LocalDate.of(2021, 4, 2));
+//         Transaction tran3 =new Transaction(2, user3, user2, 250.0, LocalDate.of(2021, 4, 2));
+//         Transaction tran6 =new Transaction(2, user1, user2, 100.0, LocalDate.of(2021, 4, 2));
+//         Transaction tran8 =new Transaction(2, user2, user3, 1000.0, LocalDate.of(2021, 4, 2));
+//
+//
+//
+//        Transaction tran4 =new Transaction(4, user4, user5, 600.0, LocalDate.of(2021, 4, 4));
+//        Transaction tran7 =new Transaction(7, user4, user6, 800.0, LocalDate.of(2021, 4, 7));
+//         Transaction tran9 =new Transaction(7, user4, user5, 1200.0, LocalDate.of(2021, 4, 7));
+//         Transaction tran10 =new Transaction(7, user6, user5, 200.0, LocalDate.of(2021, 4, 7));
+//         Transaction tran11=new Transaction(7, user4, user6, 400.0, LocalDate.of(2021, 4, 7));
 
 
 
@@ -66,16 +66,22 @@ public class App extends JFrame {
          TransactionGraph transactionGraph = new TransactionGraph(transactions, users);
         // Tworzymy graf transakcji
 
-         transactionGraph.addTransaction(tran1);
-         transactionGraph.addTransaction(tran2);
-         transactionGraph.addTransaction(tran3);
-         transactionGraph.addTransaction(tran4);
-         transactionGraph.addTransaction(tran6);
-         transactionGraph.addTransaction(tran7);
-         transactionGraph.addTransaction(tran8);
-         transactionGraph.addTransaction(tran9);
-         transactionGraph.addTransaction(tran10);
-         transactionGraph.addTransaction(tran11);
+//         transactionGraph.addTransaction(tran1);
+//         transactionGraph.addTransaction(tran2);
+//         transactionGraph.addTransaction(tran3);
+//         transactionGraph.addTransaction(tran4);
+//         transactionGraph.addTransaction(tran6);
+//         transactionGraph.addTransaction(tran7);
+//         transactionGraph.addTransaction(tran8);
+//         transactionGraph.addTransaction(tran9);
+//         transactionGraph.addTransaction(tran10);
+//         transactionGraph.addTransaction(tran11);
+
+         transactionGraph.addTransaction((new Transaction(1,user1,user2,20,LocalDate.now())));
+         transactionGraph.addTransaction((new Transaction(1,user2,user5,40,LocalDate.now())));
+         transactionGraph.addTransaction((new Transaction(1,user4,user5,10,LocalDate.now())));
+         transactionGraph.addTransaction((new Transaction(1,user4,user3,20,LocalDate.now())));
+         transactionGraph.addTransaction((new Transaction(1,user4,user1,10,LocalDate.now())));
 
 
 
@@ -91,9 +97,9 @@ public class App extends JFrame {
 
          System.out.println("lista uproszczonych transakcji");
 
-        // System.out.println(transactionGraph.simplify(transactionGraph.users, transactionGraph.listOfTransactions));
+        System.out.println(transactionGraph.simplify(transactionGraph.users, transactionGraph.listOfTransactions));
 
-         System.out.println(transactionGraph.getTransactionsForUser(user3));
+         //System.out.println(transactionGraph.getTransactionsForUser(user3));
 
 
     }

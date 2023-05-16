@@ -3,7 +3,6 @@ import java.util.*;
 public class TransactionGraph {
     ArrayList<Transaction> listOfTransactions;
     ArrayList<User> users;
-    ArrayList<Transaction> simplifiedList;
     private int lastTransactionId =0;
 
     private int getNextTransactionId() {
@@ -65,8 +64,8 @@ public class TransactionGraph {
             }
         }
 
-        this.simplifiedList = simplifiedList;
-        return simplifiedList;
+        listOfTransactions = simplifiedList;
+        return listOfTransactions;
     }
     public List<Set<User>> findSubGraphs(ArrayList<User> users, ArrayList<Transaction> listOfTransactions) {
         List<Set<User>> subGraphs = new ArrayList<>();
@@ -138,7 +137,7 @@ public class TransactionGraph {
         List<Transaction> userTransactions = new ArrayList<>();
 
         // Loop through the simplified list and add transactions that involve the user
-        for (Transaction transaction : simplifiedList) {
+        for (Transaction transaction : listOfTransactions) {
             if (transaction.getSender().equals(user) || transaction.getReceiver().equals(user)) {
                 userTransactions.add(transaction);
             }
