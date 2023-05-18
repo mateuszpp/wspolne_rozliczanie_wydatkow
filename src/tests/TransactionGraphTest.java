@@ -39,7 +39,7 @@ public class TransactionGraphTest {
             transactions.add(new Transaction(i, sender, receiver, rand.nextDouble(), LocalDate.now()));
         }
         long startTime = System.currentTimeMillis();
-        graph.simplify(users, transactions);
+        System.out.println(graph.simplify(users, transactions));
         long endTime = System.currentTimeMillis();
         long duration = endTime - startTime;
         assertTrue(duration < 1000);
@@ -60,7 +60,7 @@ public class TransactionGraphTest {
             while (sender == receiver) {
                 receiver = users.get(rand.nextInt(numUsers));
             }
-            transactions.add(new Transaction(i, sender, receiver, rand.nextDouble(), LocalDate.now()));
+            graph.addTransaction(new Transaction(i, sender, receiver, rand.nextDouble(), LocalDate.now()));
         }
         long startTime = System.currentTimeMillis();
         graph.simplify(users, transactions);
