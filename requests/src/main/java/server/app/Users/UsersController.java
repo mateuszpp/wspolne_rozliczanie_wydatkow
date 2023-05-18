@@ -64,7 +64,6 @@ public class UsersController {
     @PostMapping("/users/remove/{name}")
     void removeUser(@RequestBody getUserRequest urRequest){
         usersRepository.delete(userByName(urRequest));
-
         ObjectMapper objectMapper = new ObjectMapper();
         List<Users> users;
         users = usersRepository.findAll();
