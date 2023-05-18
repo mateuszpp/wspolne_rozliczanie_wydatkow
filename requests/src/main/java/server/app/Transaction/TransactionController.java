@@ -57,18 +57,17 @@ public class TransactionController {
     public ResponseEntity<String> addTransaction(@RequestBody UserTransactionRequest utRequest){
         Users sender = usersRepository.findByName(utRequest.sender);
         Users receiver = usersRepository.findByName(utRequest.receiver);
-
         Transaction transaction = new Transaction(sender,receiver,utRequest.amount, LocalDate.now());
         transactionrepository.save(transaction);
-        TransactionGraph trGraph = new TransactionGraph((ArrayList<Transaction>) transactionrepository.findAll(), (ArrayList<Users>) usersRepository.findAll());
-        TransactionGraph.setListOfTransactions((ArrayList<Transaction>) transactionrepository.findAll());
-        TransactionGraph.setUsers((ArrayList<Users>) usersRepository.findAll());
+        //TransactionGraph trGraph = new TransactionGraph(TransactionGraph.getListOfTransactions(), (ArrayList<Users>) usersRepository.findAll());
         //transactionrepository.saveAll(TransactionGraph.getListOfTransactions());
-        ArrayList<Transaction> listOfTransactions2 = TransactionGraph.simplify();
+        TransactionGraph.users=((ArrayList<Users>) usersRepository.findAll());
+        //TransactionGraph.listOfTransactions= (ArrayList<Transaction>) transactionrepository.findAll();
+        TransactionGraph.simplify();
+
         //System.out.println(listOfTransactions2 + "addtransaction");
         transactionrepository.deleteAll(transactionrepository.findAll());
-        transactionrepository.saveAll(listOfTransactions2);
-
+        transactionrepository.saveAll(TransactionGraph.simiplifiedList);
         return new ResponseEntity<String>("Record saved successfully", HttpStatus.CREATED);
     }
 

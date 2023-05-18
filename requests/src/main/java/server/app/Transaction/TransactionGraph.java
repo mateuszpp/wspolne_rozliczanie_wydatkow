@@ -32,8 +32,11 @@ public class TransactionGraph {
         double amount = transaction.getAmount();
 
         sender.setBalance(sender.getBalance() - amount);
+        sender.setInitialBalance(sender.getBalance());
 
         receiver.setBalance(receiver.getBalance() + amount);
+        receiver.setInitialBalance(receiver.getBalance());
+
         System.out.println(receiver.getBalance()+receiver.getUsername());
         System.out.println();
 
@@ -47,7 +50,7 @@ public class TransactionGraph {
         System.out.println(listOfTransactions + "simplify przed");
 
         // find not connected subgraphs
-        List<Set<Users>> subGraphs = findSubGraphs(users, listOfTransactions);
+        List<Set<Users>> subGraphs = findSubGraphs();
 
         // Dla każdego niepołączonego podgrafu znajdź najkrótszą ścieżkę i dokonaj uproszczenia
         //for each not connected subgraph find the shortest path and make simplification
@@ -71,24 +74,28 @@ public class TransactionGraph {
 
                 debitor.setBalance(debitorbalance - transactionsize);
                 borrower.setBalance(borrowerbalance + transactionsize);
+                System.out.println(debitorbalance);
+                System.out.println(borrowerbalance);
             }
         }
         TransactionGraph.simiplifiedList = simplifiedList;
-        System.out.println(listOfTransactions+ "po simplify ");
-        for (Users user: users) {
-            System.out.println(user.getBalance());
+        System.out.println(simplifiedList+ "po simplify ");
+        for (Users user: TransactionGraph.users) {
+            user.setBalance(user.getInitialBalance());
+            //System.out.println(user.getBalance());
         }
+
         return simplifiedList;
     }
-    public static List<Set<Users>> findSubGraphs(ArrayList<Users> users, ArrayList<Transaction> listOfTransactions) {
+    public static List<Set<Users>> findSubGraphs() {
         List<Set<Users>> subGraphs = new ArrayList<>();
 
         // Create a map that associates each user with the set of users they have transacted with
         Map<Users, Set<Users>> userToFriends = new HashMap<>();
-        for (Users user : users) {
+        for (Users user : TransactionGraph.users) {
             userToFriends.put(user, new HashSet<>());
         }
-        for (Transaction transaction : listOfTransactions) {
+        for (Transaction transaction : TransactionGraph.listOfTransactions) {
             Users sender = transaction.getSender();
             Users receiver = transaction.getReceiver();
             userToFriends.get(sender).add(receiver);
@@ -97,7 +104,7 @@ public class TransactionGraph {
 
         // Traverse the graph to find all disconnected subgraphs
         Set<Users> visitedUsers = new HashSet<>();
-        for (Users user : users) {
+        for (Users user : TransactionGraph.users) {
             if (!visitedUsers.contains(user)) {
                 Set<Users> subGraph = new HashSet<>();
                 traverseGraph(user, userToFriends, visitedUsers, subGraph);
@@ -120,7 +127,7 @@ public class TransactionGraph {
     public static Users findUserWithMaxBalance(ArrayList<Users> users) {
         Users maxUser = null;
         double maxBalance = 0.0;
-        for (Users user : users) {
+        for (Users user : TransactionGraph.users) {
             if (user.getBalance() > maxBalance) {
                 maxBalance = user.getBalance();
                 maxUser = user;
@@ -131,7 +138,7 @@ public class TransactionGraph {
     public static Users findUserWithMinBalance(ArrayList<Users> users) {
         Users minUser = null;
         double minBalance = 0.0;
-        for (Users user : users) {
+        for (Users user : TransactionGraph.users) {
             if (user.getBalance() < minBalance) {
                 minBalance = user.getBalance();
                 minUser = user;
@@ -173,6 +180,7 @@ public class TransactionGraph {
     public static ArrayList<Transaction> getListOfTransactions() {
         return listOfTransactions;
     }
+
 }
 
 

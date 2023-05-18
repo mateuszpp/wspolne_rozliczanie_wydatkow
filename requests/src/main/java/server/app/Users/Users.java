@@ -12,7 +12,7 @@ import java.util.Objects;
 public class Users implements Serializable {
     private String username;
     private String hashedPasswd;
-
+    public double initialBalance;
     public double balance;
     @Id @GeneratedValue
     private Long id;
@@ -27,11 +27,13 @@ public class Users implements Serializable {
         this.username = username;
         this.hashedPasswd = hashedPasswd;
         this.balance = balance;
+        this.initialBalance=initialBalance;
     }
     public Users(String username, String hashedPasswd) throws NoSuchAlgorithmException {
         this.username = username;
         this.hashedPasswd = hashPassword(hashedPasswd);
-        this.balance=0;
+        this.balance=getBalance();
+        this.initialBalance=initialBalance;
     }
 
     public String getUsername() {
@@ -90,5 +92,13 @@ public class Users implements Serializable {
 
     public void setHashedPasswd(String hashedPasswd) throws NoSuchAlgorithmException {
         this.hashedPasswd = hashPassword(hashedPasswd);
+    }
+
+    public void setInitialBalance(double initialBalance) {
+        this.initialBalance = initialBalance;
+    }
+
+    public double getInitialBalance() {
+        return initialBalance;
     }
 }
