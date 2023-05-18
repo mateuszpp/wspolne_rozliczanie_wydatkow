@@ -23,8 +23,10 @@ public class LoadDB {
         return args -> {
             Users kuba = new Users("szwedson", "asdfasdf",30.0);
             Users kuba2 = new Users("szwedson2", "asdfasdfad",30.0);
+            Users kuba3 = new Users("toDelete", "asdfasdfad",30.0);
             log.info("Preloading " + repository.save(kuba));
             log.info("Preloading " + repository.save(kuba2));
+            log.info("Preloading " + repository.save(kuba3));
             log.info("Preloading " + transactionrepository.save(new Transaction(kuba ,kuba2 ,30.0 , LocalDateTime.now() )));
         };
     }

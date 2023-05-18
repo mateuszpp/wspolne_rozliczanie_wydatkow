@@ -5,9 +5,13 @@ import org.springframework.web.bind.annotation.*;
 import server.app.requests.UserTransactionRequest;
 import server.app.Users.Users;
 import server.app.Users.UsersRepository;
+import server.app.requests.removeTransactionRequest;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+
+import static java.util.Objects.isNull;
 
 @RestController
 public class TransactionController {
@@ -24,23 +28,28 @@ public class TransactionController {
     List<Transaction> all3(){
         return transactionrepository.findAll();
     }
-    //TODO: mplichta Fix naming of endpoints
-    @GetMapping("/Transaction/{id}")
-    List<Transaction> TransactionById(@PathVariable int id){
-        return transactionrepository.findById(id);
-    }
-    @GetMapping("/Transaction/{sender}")
-    List<Transaction> TransactionBySender(@PathVariable Users sender){
-        return transactionrepository.findBySender(sender);
-    }
-    @GetMapping("/Transaction/{receiver}")
-    List<Transaction> TransactionByReceiver(@PathVariable Users receiver){
-        return transactionrepository.findByReceiver(receiver);
-    }
 
-    @GetMapping("/Transaction/{amount}")
-    List<Transaction> TransactionByAmount(@PathVariable double amount){
-        return transactionrepository.findByAmount(amount);
+    @GetMapping("/Transaction/bySender/{sender}")
+    List<Transaction> TransactionBySender(@PathVariable String sender){
+        Users sendingUser = usersRepository.findByName(sender);
+        List<Transaction> result = new ArrayList<>();
+        for(Transaction x : transactionrepository.findAll()){
+            if(x.getSender() == sendingUser){
+                result.add(x);
+            }
+        }
+        return result;
+    }
+    @GetMapping("/Transaction/byReceiver/{receiver}")
+    List<Transaction> TransactionByReceiver(@PathVariable String receiver){
+        Users receivingUser = usersRepository.findByName(receiver);
+        List<Transaction> result = new ArrayList<>();
+        for(Transaction x : transactionrepository.findAll()){
+            if(x.getReceiver() == receivingUser){
+                result.add(x);
+            }
+        }
+        return result;
     }
 
     @PostMapping("/addTransaction")
@@ -53,4 +62,18 @@ public class TransactionController {
 
         return new ResponseEntity<String>("Record saved successfully", HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/removeTransaction")
+    Transaction removeTransaction(@RequestBody removeTransactionRequest rtRequest){
+        Users sender = usersRepository.findByName(rtRequest.sender);
+        Users receiver = usersRepository.findByName(rtRequest.receiver);
+        for(Transaction x: transactionrepository.findAll()){
+            if(x.getSender() == sender && x.getReceiver() == receiver){
+                transactionrepository.delete(x);
+                return x;
+            }
+        }
+        return null;
+    }
+
 }
