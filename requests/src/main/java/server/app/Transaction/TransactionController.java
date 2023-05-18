@@ -7,6 +7,7 @@ import server.app.Users.Users;
 import server.app.Users.UsersRepository;
 import server.app.requests.removeTransactionRequest;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,8 +58,15 @@ public class TransactionController {
         Users sender = usersRepository.findByName(utRequest.sender);
         Users receiver = usersRepository.findByName(utRequest.receiver);
 
-        Transaction transaction = new Transaction(sender,receiver,utRequest.amount, LocalDateTime.now());
+        Transaction transaction = new Transaction(sender,receiver,utRequest.amount, LocalDate.now());
         transactionrepository.save(transaction);
+        TransactionGraph trGraph = new TransactionGraph((ArrayList<Transaction>) transactionrepository.findAll(), (ArrayList<Users>) usersRepository.findAll());
+        
+        //transactionrepository.saveAll(TransactionGraph.getListOfTransactions());
+        ArrayList<Transaction> listOfTransactions2 = TransactionGraph.simplify();
+        //System.out.println(listOfTransactions2 + "addtransaction");
+        transactionrepository.deleteAll(transactionrepository.findAll());
+        transactionrepository.saveAll(listOfTransactions2);
 
         return new ResponseEntity<String>("Record saved successfully", HttpStatus.CREATED);
     }

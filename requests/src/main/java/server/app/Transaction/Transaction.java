@@ -2,7 +2,7 @@ package server.app.Transaction;
 import jakarta.persistence.*;
 import server.app.Users.Users;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 public class Transaction {
@@ -16,11 +16,20 @@ public class Transaction {
     @JoinColumn(name="user_receiver_id", nullable = false)
     private Users receiver;
     private double amount;
-    private LocalDateTime date;
+    private LocalDate date;
 
-    Transaction() {};
+    public Transaction() {};
 
-    public Transaction(Users sender, Users receiver, double amount, LocalDateTime date) {
+    public Transaction(Users sender, Users receiver, double amount, LocalDate date) {
+        this.sender = sender;
+        this.receiver = receiver;
+        this.amount = amount;
+        this.date = date;
+        TransactionGraph.addTransaction(this);
+    }
+
+    public Transaction(Long id, Users sender, Users receiver, double amount, LocalDate date, boolean xd) {
+        this.id=id;
         this.sender = sender;
         this.receiver = receiver;
         this.amount = amount;
