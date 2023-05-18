@@ -24,6 +24,11 @@ public class LoadDB {
 
     private static final Logger log = LoggerFactory.getLogger(LoadDB.class);
 
+    /**
+     * This method deserializes users and transactions from backups json files and adds them to the repository
+     * @param repository repository that contains all users object
+     * @param transactionrepository repository that contains all transactions object
+     */
     public void loader(UsersRepository repository, TransactionRepository transactionrepository){
         File jasonUsersFile = new File("requests/src/main/resources/usersBackup.json");
         File jasonTransaction = new File("requests/src/main/resources/transactionBackup.json");
