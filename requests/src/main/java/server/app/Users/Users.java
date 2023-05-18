@@ -6,7 +6,6 @@ import jakarta.persistence.Id;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
@@ -33,17 +32,30 @@ public class Users implements Serializable {
         this.username = username;
         this.hashedPasswd = hashedPasswd;
         this.balance = balance;
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        this.token = new String(array, Charset.forName("UTF-8"));
+        int leftLimit = 97; // letter 'a'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 10;
+        Random random = new Random();
+
+        this.token = random.ints(leftLimit, rightLimit + 1)
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+
         this.initialBalance=initialBalance;
     }
     public Users(String username, String hashedPasswd) throws NoSuchAlgorithmException {
         this.username = username;
         this.hashedPasswd = hashPassword(hashedPasswd);
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        this.token = new String(array, Charset.forName("UTF-8"));
+        int leftLimit = 97; // letter 'a'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 10;
+        Random random = new Random();
+
+        this.token = random.ints(leftLimit, rightLimit + 1)
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
         this.balance=getBalance();
         this.initialBalance=initialBalance;
     }

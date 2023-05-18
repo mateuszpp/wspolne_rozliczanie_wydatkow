@@ -15,7 +15,6 @@ import server.app.Users.UsersRepository;
 import java.math.BigDecimal;
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -30,9 +29,9 @@ public class LoadDB {
         File jasonTransaction = new File("requests/src/main/resources/transactionBackup.json");
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            List<Users> usersList = objectMapper.readValue(jasonUsersFile, new TypeReference<List<Users>>() {
+            List<Users> usersList = objectMapper.readValue(jasonUsersFile, new TypeReference<>() {
             });
-            List<Transaction> transactionList = objectMapper.readValue(jasonTransaction, new TypeReference<List<Transaction>>() {
+            List<Transaction> transactionList = objectMapper.readValue(jasonTransaction, new TypeReference<>() {
             });
             for (Users user : usersList) {
                 log.info("Preloading" + repository.save(user));
@@ -49,12 +48,12 @@ public class LoadDB {
     CommandLineRunner initDatabase(UsersRepository repository, TransactionRepository transactionrepository) {
         return args -> {
             loader(repository,transactionrepository);
-            Users user1 = new Users( "mati","wat");
-            Users user2 = new Users( "kuba","wat");
-            Users user3 = new Users( "rafał","wat");
-            Users user4 = new Users( "Maja","wat");
-            Users user5 = new Users( "karol","wat");
-            Users user6 = new Users( "maks","wat");
+            Users user1 = new Users( "mati","123456");
+            Users user2 = new Users( "kuba","qwerty");
+            Users user3 = new Users( "rafał","password");
+            Users user4 = new Users( "Maja","1q2w3e");
+            Users user5 = new Users( "karol","123456789");
+            Users user6 = new Users( "maks","jd");
             log.info("Preloading " + repository.save(user1));
             log.info("Preloading " + repository.save(user2));
             log.info("Preloading " + repository.save(user3));

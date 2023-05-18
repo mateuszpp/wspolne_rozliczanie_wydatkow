@@ -2,17 +2,19 @@ package server.app.Users;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.*;
-import server.app.Transaction.Transaction;
 import server.app.Transaction.TransactionRepository;
 import server.app.requests.UserRegisterRequest;
 import server.app.requests.changePasswordRequest;
+import server.app.requests.getUserRequest;
 
 import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.*;
+import java.util.Objects;
+
+import static java.util.Objects.isNull;
 
 @RestController
 public class UsersController {
@@ -34,22 +36,21 @@ public class UsersController {
         return usersRepository.findAll();
     }
 
-    @GetMapping("/szwedson")
-    List<Users> all2(){
-        return usersRepository.findBySzwedson();
-    }
-
     @GetMapping("/users/{name}")
-    Users userByName(@PathVariable String name){
-        return usersRepository.findByName(name);
+    Users userByName(@RequestBody getUserRequest urRequest){
+        Users result = usersRepository.findByName(urRequest.username);
+        if(!isNull(result) && Objects.equals(result.getToken(), urRequest.token))
+            return result;
+        else
+            return null;
     }
 
     @PostMapping("/users/remove/{name}")
-    void removeUser(@PathVariable String name){
-        usersRepository.delete(userByName(name));
+    void removeUser(@RequestBody getUserRequest urRequest){
+        usersRepository.delete(userByName(urRequest));
 
         ObjectMapper objectMapper = new ObjectMapper();
-        List<Users> users = new ArrayList<>();
+        List<Users> users;
         users = usersRepository.findAll();
         try {
             objectMapper.writeValue(new File("requests/src/main/resources/usersBackup.json"),users);
@@ -58,20 +59,17 @@ public class UsersController {
         }
     }
 
-
-    @GetMapping("/transactions")
-    List<Transaction> allTransactions(){return transactionRepository.findAll();}
-
-
     @PostMapping("/users/register")
     Users register(@RequestBody UserRegisterRequest urRequest) throws NoSuchAlgorithmException {
+        if(!isNull(usersRepository.findByName(urRequest.username)))
+            return null;
         Users user = new Users();
         if(validateUserInput(urRequest.username) && validateUserInput(urRequest.password)) {
             user = new Users(urRequest.username, urRequest.password);
             usersRepository.save(user);
         }
         ObjectMapper objectMapper = new ObjectMapper();
-        List<Users> users = new ArrayList<>();
+        List<Users> users;
         users = usersRepository.findAll();
         try {
             objectMapper.writeValue(new File("requests/src/main/resources/usersBackup.json"),users);
@@ -94,25 +92,22 @@ public class UsersController {
     Users changePassword(@RequestBody changePasswordRequest cPRequest) throws NoSuchAlgorithmException{
         Users user = new Users();
         if(validateUserInput(cPRequest.username) && validateUserInput(cPRequest.currentPassword) && validateUserInput(cPRequest.newPassword)){
-        user = usersRepository.Login(cPRequest.username, Users.hashPassword(cPRequest.currentPassword));
-        //user.setHashedPasswd(cPRequest.newPassword);
-        //user = usersRepository.Login(cPRequest.username, Users.hashPassword(cPRequest.newPassword));
-        usersRepository.getReferenceById(user.getId()).setHashedPasswd(cPRequest.newPassword);
-        usersRepository.save(user);
+            user = usersRepository.Login(cPRequest.username, Users.hashPassword(cPRequest.currentPassword));
+            if(user.getToken().equals(cPRequest.token))
+            {
+                usersRepository.getReferenceById(user.getId()).setHashedPasswd(cPRequest.newPassword);
+                usersRepository.save(user);
+            }
         }
         return user;
     }
     /**
      * method used to validate the User's input: username or password
      * accepts only characters of English alphabet, digits and a dot
-     * @param userInput
+     * @param userInput the input from the user
      * @return false if the given input contains an illegal character, true otherwise
      */
     public boolean validateUserInput(String userInput){
-        String input = userInput;
-        Pattern pattern = Pattern.compile("^[a-zA-Z0-9.]");
-        Matcher matcher = pattern.matcher(input);
-        boolean valid = matcher.find();
-        return true;
+        return userInput.matches("^[a-zA-Z0-9]+$");
     }
 }
