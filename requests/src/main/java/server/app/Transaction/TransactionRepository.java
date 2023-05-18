@@ -19,4 +19,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Users>
 
     @Query("FROM Transaction WHERE amount = :amount")
     List<Transaction> findByAmount(@Param("amount") double amount);
+
+    @Query("FROM Transaction WHERE receiver.username = :name")
+    List<Transaction> findByName(@Param("name") String name);
 }

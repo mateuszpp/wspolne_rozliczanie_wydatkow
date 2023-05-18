@@ -17,14 +17,21 @@ public class Users implements Serializable {
     @Id @GeneratedValue
     private Long id;
 
+
+
     public String getHashedPasswd() {
         return hashedPasswd;
     }
     public Users(){}
-    public Users(String username, String hashedPasswd, double balance) throws NoSuchAlgorithmException {
+    public Users(String username, String hashedPasswd, double balance) {
+        this.username = username;
+        this.hashedPasswd = hashedPasswd;
+        this.balance = balance;
+    }
+    public Users(String username, String hashedPasswd) throws NoSuchAlgorithmException {
         this.username = username;
         this.hashedPasswd = hashPassword(hashedPasswd);
-        this.balance=balance;
+        this.balance=0;
     }
 
     public String getUsername() {
@@ -32,7 +39,7 @@ public class Users implements Serializable {
     }
 
 
-    private String hashPassword(String passwd) throws NoSuchAlgorithmException {
+    public static String hashPassword(String passwd) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         byte[] hashedBytes = md.digest(passwd.getBytes());
         StringBuilder sb = new StringBuilder();
@@ -79,5 +86,9 @@ public class Users implements Serializable {
 
     public Long getId() {
         return id;
+    }
+
+    public void setHashedPasswd(String hashedPasswd) throws NoSuchAlgorithmException {
+        this.hashedPasswd = hashPassword(hashedPasswd);
     }
 }

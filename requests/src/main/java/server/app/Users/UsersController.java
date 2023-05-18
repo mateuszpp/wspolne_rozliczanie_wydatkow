@@ -3,7 +3,10 @@ package server.app.Users;
 import org.springframework.web.bind.annotation.*;
 import server.app.Transaction.Transaction;
 import server.app.Transaction.TransactionRepository;
+import server.app.requests.UserRegisterRequest;
+import server.app.requests.changePasswordRequest;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @RestController
@@ -36,8 +39,33 @@ public class UsersController {
         return usersRepository.findByName(name);
     }
 
+    @PostMapping("/users/remove/{name}")
+    void removeUser(@PathVariable String name){
+        usersRepository.delete(userByName(name));
+    }
 
 
     @GetMapping("/transactions")
     List<Transaction> allTransactions(){return transactionRepository.findAll();}
+
+    @PostMapping("/users/register")
+    void register(@RequestBody UserRegisterRequest urRequest) throws NoSuchAlgorithmException {
+        Users user = new Users(urRequest.username, urRequest.password);
+        usersRepository.save(user);
+    }
+
+    @PostMapping("/users/login")
+    Users login(@RequestBody UserRegisterRequest urRequest) throws NoSuchAlgorithmException{
+        return usersRepository.Login(urRequest.username, Users.hashPassword(urRequest.password));
+    }
+
+    @PatchMapping("/users/changePassword")
+    Users changePassword(@RequestBody changePasswordRequest cPRequest) throws NoSuchAlgorithmException{
+        Users user = usersRepository.Login(cPRequest.username, Users.hashPassword(cPRequest.currentPassword));
+        //user.setHashedPasswd(cPRequest.newPassword);
+        //user = usersRepository.Login(cPRequest.username, Users.hashPassword(cPRequest.newPassword));
+        usersRepository.getReferenceById(user.getId()).setHashedPasswd(cPRequest.newPassword);
+        usersRepository.save(user);
+        return user;
+    }
 }
