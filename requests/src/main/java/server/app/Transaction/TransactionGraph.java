@@ -7,6 +7,7 @@ import java.util.*;
 public class TransactionGraph {
     static ArrayList<Transaction> listOfTransactions = new ArrayList<>();
     static ArrayList<Users> users = new ArrayList<>();
+    static ArrayList<Transaction> simiplifiedList = new ArrayList<>();
     private static long lastTransactionId =0;
 
     private static long getNextTransactionId() {
@@ -72,9 +73,12 @@ public class TransactionGraph {
                 borrower.setBalance(borrowerbalance + transactionsize);
             }
         }
-        listOfTransactions = simplifiedList;
+        TransactionGraph.simiplifiedList = simplifiedList;
         System.out.println(listOfTransactions+ "po simplify ");
-        return listOfTransactions;
+        for (Users user: users) {
+            System.out.println(user.getBalance());
+        }
+        return simplifiedList;
     }
     public static List<Set<Users>> findSubGraphs(ArrayList<Users> users, ArrayList<Transaction> listOfTransactions) {
         List<Set<Users>> subGraphs = new ArrayList<>();

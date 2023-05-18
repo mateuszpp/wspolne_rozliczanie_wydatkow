@@ -61,7 +61,8 @@ public class TransactionController {
         Transaction transaction = new Transaction(sender,receiver,utRequest.amount, LocalDate.now());
         transactionrepository.save(transaction);
         TransactionGraph trGraph = new TransactionGraph((ArrayList<Transaction>) transactionrepository.findAll(), (ArrayList<Users>) usersRepository.findAll());
-        
+        TransactionGraph.setListOfTransactions((ArrayList<Transaction>) transactionrepository.findAll());
+        TransactionGraph.setUsers((ArrayList<Users>) usersRepository.findAll());
         //transactionrepository.saveAll(TransactionGraph.getListOfTransactions());
         ArrayList<Transaction> listOfTransactions2 = TransactionGraph.simplify();
         //System.out.println(listOfTransactions2 + "addtransaction");
