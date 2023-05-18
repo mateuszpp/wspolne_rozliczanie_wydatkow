@@ -5,16 +5,21 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
+import java.util.Random;
 
 @Entity
 public class Users implements Serializable {
     private String username;
     private String hashedPasswd;
-    public double initialBalance;
-    public double balance;
+
+    private String token;
+    public BigDecimal initialBalance = new BigDecimal(0);
+    public BigDecimal balance = new BigDecimal(0);
     @Id @GeneratedValue
     private Long id;
 
@@ -24,15 +29,21 @@ public class Users implements Serializable {
         return hashedPasswd;
     }
     public Users(){}
-    public Users(String username, String hashedPasswd, double balance) {
+    public Users(String username, String hashedPasswd, BigDecimal balance) {
         this.username = username;
         this.hashedPasswd = hashedPasswd;
         this.balance = balance;
+        byte[] array = new byte[7]; // length is bounded by 7
+        new Random().nextBytes(array);
+        this.token = new String(array, Charset.forName("UTF-8"));
         this.initialBalance=initialBalance;
     }
     public Users(String username, String hashedPasswd) throws NoSuchAlgorithmException {
         this.username = username;
         this.hashedPasswd = hashPassword(hashedPasswd);
+        byte[] array = new byte[7]; // length is bounded by 7
+        new Random().nextBytes(array);
+        this.token = new String(array, Charset.forName("UTF-8"));
         this.balance=getBalance();
         this.initialBalance=initialBalance;
     }
@@ -53,11 +64,11 @@ public class Users implements Serializable {
         return sb.toString();
     }
 
-    public double getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(double balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 
@@ -96,11 +107,15 @@ public class Users implements Serializable {
         this.hashedPasswd = hashPassword(hashedPasswd);
     }
 
-    public void setInitialBalance(double initialBalance) {
+    public void setInitialBalance(BigDecimal initialBalance) {
         this.initialBalance = initialBalance;
     }
 
-    public double getInitialBalance() {
+    public BigDecimal getInitialBalance() {
         return initialBalance;
+    }
+
+    public String getToken() {
+        return token;
     }
 }

@@ -2,6 +2,7 @@ package server.app.Transaction;
 
 import server.app.Users.Users;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 public class TransactionGraph {
@@ -29,12 +30,12 @@ public class TransactionGraph {
 
         Users sender = transaction.getSender();
         Users receiver = transaction.getReceiver();
-        double amount = transaction.getAmount();
+        BigDecimal amount = transaction.getAmount();
 
-        sender.setBalance(sender.getBalance() - amount);
+        sender.setBalance(sender.getBalance().subtract(amount));
         sender.setInitialBalance(sender.getBalance());
 
-        receiver.setBalance(receiver.getBalance() + amount);
+        receiver.setBalance(receiver.getBalance().add(amount));
         receiver.setInitialBalance(receiver.getBalance());
 
         System.out.println(receiver.getBalance()+receiver.getUsername());
@@ -57,23 +58,23 @@ public class TransactionGraph {
         for (Set<Users> subGraph : subGraphs) {
             ArrayList<Users> subGraphUsers = new ArrayList<>(subGraph);
 
-            while (findUserWithMaxBalance(subGraphUsers) != null || findUserWithMinBalance(subGraphUsers) != null) {
+            while (findUserWithMaxBalance(subGraphUsers) != null && findUserWithMinBalance(subGraphUsers) != null) {
 
                 Users debitor = findUserWithMaxBalance(subGraphUsers);
                 Users borrower = findUserWithMinBalance(subGraphUsers);
-                double debitorbalance = debitor.getBalance();
-                double borrowerbalance = borrower.getBalance();
-                double transactionsize = 0;
-                if (Math.abs(debitorbalance) > Math.abs(borrowerbalance)) {
-                    transactionsize = Math.abs(borrower.getBalance());
+                BigDecimal debitorbalance = debitor.getBalance();
+                BigDecimal borrowerbalance = borrower.getBalance();
+                BigDecimal transactionsize = new BigDecimal(0);
+                if (debitorbalance.abs().compareTo(borrowerbalance.abs())>0) {
+                    transactionsize = borrower.getBalance().abs();
                 } else {
-                    transactionsize = Math.abs(debitor.getBalance());
+                    transactionsize = debitor.getBalance().abs();
                 }
-                Transaction Simplifiedtransaction = new Transaction(getNextTransactionId(),debitor, borrower, transactionsize, LocalDate.now(), true);
+                Transaction Simplifiedtransaction = new Transaction(getNextTransactionId(),debitor, borrower,transactionsize, LocalDate.now(), true);
                 simplifiedList.add(Simplifiedtransaction);
 
-                debitor.setBalance(debitorbalance - transactionsize);
-                borrower.setBalance(borrowerbalance + transactionsize);
+                debitor.setBalance(debitorbalance.subtract(transactionsize));
+                borrower.setBalance(borrowerbalance.add(transactionsize));
                 System.out.println(debitorbalance);
                 System.out.println(borrowerbalance);
             }
@@ -126,9 +127,9 @@ public class TransactionGraph {
 
     public static Users findUserWithMaxBalance(ArrayList<Users> users) {
         Users maxUser = null;
-        double maxBalance = 0.0;
+        BigDecimal maxBalance = new BigDecimal(0);
         for (Users user : TransactionGraph.users) {
-            if (user.getBalance() > maxBalance) {
+            if (user.getBalance().compareTo(maxBalance)>0) {
                 maxBalance = user.getBalance();
                 maxUser = user;
             }
@@ -137,9 +138,9 @@ public class TransactionGraph {
     }
     public static Users findUserWithMinBalance(ArrayList<Users> users) {
         Users minUser = null;
-        double minBalance = 0.0;
+        BigDecimal minBalance = new BigDecimal(0);
         for (Users user : TransactionGraph.users) {
-            if (user.getBalance() < minBalance) {
+            if (user.getBalance().compareTo(minBalance)<0) {
                 minBalance = user.getBalance();
                 minUser = user;
             }

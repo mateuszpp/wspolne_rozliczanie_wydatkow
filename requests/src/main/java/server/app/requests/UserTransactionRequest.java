@@ -1,5 +1,7 @@
 package server.app.requests;
 
+import java.math.BigDecimal;
+
 public class UserTransactionRequest {
 
     public String sender;

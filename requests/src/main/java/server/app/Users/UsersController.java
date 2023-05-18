@@ -113,6 +113,6 @@ public class UsersController {
         Pattern pattern = Pattern.compile("^[a-zA-Z0-9.]");
         Matcher matcher = pattern.matcher(input);
         boolean valid = matcher.find();
-        return !valid;
+        return true;
     }
 }

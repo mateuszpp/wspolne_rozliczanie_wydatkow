@@ -20,7 +20,7 @@ public class Transaction {
 
     public Transaction() {};
 
-    public Transaction(Users sender, Users receiver, double amount, LocalDate date) {
+    public Transaction(Users sender, Users receiver, BigDecimal amount, LocalDate date) {
         this.sender = sender;
         this.receiver = receiver;
         this.amount = amount;
@@ -28,7 +28,7 @@ public class Transaction {
         TransactionGraph.addTransaction(this);
     }
 
-    public Transaction(Long id, Users sender, Users receiver, double amount, LocalDate date, boolean xd) {
+    public Transaction(Long id, Users sender, Users receiver, BigDecimal amount, LocalDate date, boolean xd) {
         this.id=id;
         this.sender = sender;
         this.receiver = receiver;

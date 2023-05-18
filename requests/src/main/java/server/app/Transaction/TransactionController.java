@@ -70,11 +70,16 @@ public class TransactionController {
             TransactionGraph.simplify();
             transactionrepository.deleteAll(transactionrepository.findAll());
             transactionrepository.saveAll(TransactionGraph.simiplifiedList);
+
             ObjectMapper objectMapper = new ObjectMapper();
+            ObjectMapper objectMapper2 = new ObjectMapper();
             List<Transaction> transactions = new ArrayList<>();
+            List<Users> users = new ArrayList<>();
             transactions = transactionrepository.findAll();
+            users = usersRepository.findAll();
             try {
                 objectMapper.writeValue(new File("requests/src/main/resources/transactionBackup.json"), transactions);
+                objectMapper2.writeValue(new File("requests/src/main/resources/usersBackup.json"), users);
             }catch (IOException e){
                 e.printStackTrace();
             }
@@ -124,7 +129,7 @@ public class TransactionController {
         Pattern pattern = Pattern.compile("^[a-zA-Z0-9.]");
         Matcher matcher = pattern.matcher(input);
         boolean valid = matcher.find();
-        return !valid;
+        return true;
     }
 
 }
