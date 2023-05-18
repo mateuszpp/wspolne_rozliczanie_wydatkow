@@ -26,11 +26,21 @@ public class TransactionController {
         this.usersRepository = usersRepository;
         transactionRepository.findAll();
     }
+
+    /**
+     *
+     * @return list of transactions
+     */
     @GetMapping("/Transaction")
     List<Transaction> all3(){
         return transactionrepository.findAll();
     }
 
+    /**
+     *
+     * @param urRequest request body of getUserRequest, needed username and token
+     * @return list of transactions in which the name of user was involved as Sender
+     */
     @GetMapping("/Transaction/bySender/{sender}")
     List<Transaction> TransactionBySender(@RequestBody getUserRequest urRequest){
         Users sendingUser = usersRepository.findByName(urRequest.username);
@@ -45,6 +55,12 @@ public class TransactionController {
         }
         return result;
     }
+
+    /**
+     *
+     * @param urRequest request body of getUserRequest, needed username and token
+     * @return list of transactions in which the name of user was involved as Receiver
+     */
     @GetMapping("/Transaction/byReceiver/{receiver}")
     List<Transaction> TransactionByReceiver(@RequestBody getUserRequest urRequest){
         Users receivingUser = usersRepository.findByName(urRequest.username);
@@ -60,6 +76,12 @@ public class TransactionController {
         return result;
     }
 
+    /**
+     *method responsible for adding new transaction to the transactiongraph, automatically the balance of all users and list of transactions is
+     * being simplified, data is also serialised during the process into 2 files : transactionBackup and usersBackup in json format
+     * @param utRequest request body of UserTransactionRequest, needed String sender, String receiver, double amount, String token
+     * @return message whether record saved successful or request was invalid
+     */
     @PostMapping("/addTransaction")
     public ResponseEntity<String> addTransaction(@RequestBody UserTransactionRequest utRequest){
         Users sender = usersRepository.findByName(utRequest.sender);
@@ -92,6 +114,10 @@ public class TransactionController {
         else return new ResponseEntity<>("Invalid request", HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * @param rtRequest request body of removeTransactionRequest, needed String sender, String receiver, public String token;
+     * @return the deleted Transaction
+     */
     @DeleteMapping("/removeTransaction")
     Transaction removeTransaction(@RequestBody removeTransactionRequest rtRequest){
         Users sender = usersRepository.findByName(rtRequest.sender);
