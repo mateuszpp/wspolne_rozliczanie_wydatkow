@@ -22,6 +22,11 @@ public class UsersController {
     private final UsersRepository usersRepository;
     private final TransactionRepository transactionRepository;
 
+    /**
+     *This class is used to communicate with users repository
+     * @param repository
+     * @param transactionRepository
+     */
     UsersController(UsersRepository repository, TransactionRepository transactionRepository) {
         this.usersRepository = repository;
         this.transactionRepository = transactionRepository;
@@ -29,13 +34,20 @@ public class UsersController {
     }
 
 
-    // Aggregate root
-    // tag::get-aggregate-root[]
+    /**
+     * The response is all users form users repository
+     * @return
+     */
     @GetMapping("/users")
     List<Users> all() {
         return usersRepository.findAll();
     }
 
+    /**
+     * The response is certain user from users repository
+     * @param urRequest request with certain users
+     * @return User
+     */
     @GetMapping("/users/{name}")
     Users userByName(@RequestBody getUserRequest urRequest){
         Users result = usersRepository.findByName(urRequest.username);
@@ -45,6 +57,10 @@ public class UsersController {
             return null;
     }
 
+    /**
+     * Deletes certain user from repository
+     * @param urRequest  request with certain users
+     */
     @PostMapping("/users/remove/{name}")
     void removeUser(@RequestBody getUserRequest urRequest){
         usersRepository.delete(userByName(urRequest));
@@ -59,6 +75,12 @@ public class UsersController {
         }
     }
 
+    /**
+     * Registers new users and adds them to users repository and serialize them to the backup files
+     * @param urRequest request with username and password
+     * @return Created user
+     * @throws NoSuchAlgorithmException
+     */
     @PostMapping("/users/register")
     Users register(@RequestBody UserRegisterRequest urRequest) throws NoSuchAlgorithmException {
         if(!isNull(usersRepository.findByName(urRequest.username)))
@@ -79,6 +101,12 @@ public class UsersController {
         return user;
     }
 
+    /**
+     * Checks if user exists and if the password is correct
+     * @param urRequest request with username and password
+     * @return User
+     * @throws NoSuchAlgorithmException
+     */
     @PostMapping("/users/login")
     Users login(@RequestBody UserRegisterRequest urRequest) throws NoSuchAlgorithmException{
         Users user = new Users();
@@ -88,6 +116,12 @@ public class UsersController {
             return user;
     }
 
+    /**
+     * Changes user's password
+     * @param cPRequest request with username, current password, new password, and authorization token
+     * @return Users
+     * @throws NoSuchAlgorithmException
+     */
     @PatchMapping("/users/changePassword")
     Users changePassword(@RequestBody changePasswordRequest cPRequest) throws NoSuchAlgorithmException{
         Users user = new Users();
