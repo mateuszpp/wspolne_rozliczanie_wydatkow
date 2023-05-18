@@ -48,7 +48,6 @@ public class UsersController {
     @PostMapping("/users/remove/{name}")
     void removeUser(@RequestBody getUserRequest urRequest){
         usersRepository.delete(userByName(urRequest));
-
         ObjectMapper objectMapper = new ObjectMapper();
         List<Users> users;
         users = usersRepository.findAll();
@@ -58,6 +57,7 @@ public class UsersController {
             e.printStackTrace();
         }
     }
+
 
     @PostMapping("/users/register")
     Users register(@RequestBody UserRegisterRequest urRequest) throws NoSuchAlgorithmException {
