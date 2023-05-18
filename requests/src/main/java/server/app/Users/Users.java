@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
+
 @Entity
 public class Users implements Serializable {
     private String username;
@@ -35,6 +36,7 @@ public class Users implements Serializable {
         this.balance=getBalance();
         this.initialBalance=initialBalance;
     }
+
 
     public String getUsername() {
         return username;

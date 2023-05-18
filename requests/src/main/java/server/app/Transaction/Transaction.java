@@ -1,7 +1,7 @@
 package server.app.Transaction;
 import jakarta.persistence.*;
 import server.app.Users.Users;
-
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -15,7 +15,7 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name="user_receiver_id", nullable = false)
     private Users receiver;
-    private double amount;
+    private BigDecimal amount;
     private LocalDate date;
 
     public Transaction() {};
@@ -44,13 +44,16 @@ public class Transaction {
         return receiver;
     }
 
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
+    }
+    public Long getId(){
+        return this.id;
     }
 
     @Override
     public String toString() {
-        return "Transaction #" + id + " | " + sender.getUsername() + " -> " + receiver.getUsername() + " | Amount: " + amount + " | Date: " + date;
+        return "Transaction #" + id + " | " + sender.getUsername() + " -> " + receiver.getUsername() + " | Amount: " + amount;
     }
 }
 
