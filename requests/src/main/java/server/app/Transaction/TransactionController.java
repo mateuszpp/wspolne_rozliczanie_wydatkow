@@ -128,6 +128,7 @@ public class TransactionController {
             for (Transaction x : transactionrepository.findAll()) {
                 if (x.getSender() == sender && x.getReceiver() == receiver) {
                     transactionrepository.delete(x);
+                    TransactionGraph.listOfTransactions= (ArrayList<Transaction>) transactionrepository.findAll();
                     return x;
                 }
             }
