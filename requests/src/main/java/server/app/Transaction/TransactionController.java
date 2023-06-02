@@ -32,8 +32,8 @@ public class TransactionController {
      * @return list of transactions
      */
     @GetMapping("/Transaction")
-    List<Transaction> all3(){
-        return transactionrepository.findAll();
+    ResponseEntity<List<Transaction>> all3(){
+        return new ResponseEntity<>(transactionrepository.findAll(),HttpStatus.OK);
     }
 
     /**
@@ -42,10 +42,10 @@ public class TransactionController {
      * @return list of transactions in which the name of user was involved as Sender
      */
     @GetMapping("/Transaction/bySender/{sender}")
-    List<Transaction> TransactionBySender(@RequestBody getUserRequest urRequest){
+    ResponseEntity<List<Transaction>> TransactionBySender(@RequestBody getUserRequest urRequest){
         Users sendingUser = usersRepository.findByName(urRequest.username);
         if(!sendingUser.getToken().equals(urRequest.token)){
-            return null;
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         List<Transaction> result = new ArrayList<>();
         for(Transaction x : transactionrepository.findAll()){
@@ -53,7 +53,7 @@ public class TransactionController {
                 result.add(x);
             }
         }
-        return result;
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     /**
@@ -62,10 +62,10 @@ public class TransactionController {
      * @return list of transactions in which the name of user was involved as Receiver
      */
     @GetMapping("/Transaction/byReceiver/{receiver}")
-    List<Transaction> TransactionByReceiver(@RequestBody getUserRequest urRequest){
+    ResponseEntity<List<Transaction>> TransactionByReceiver(@RequestBody getUserRequest urRequest){
         Users receivingUser = usersRepository.findByName(urRequest.username);
         if(!receivingUser.getToken().equals(urRequest.token)){
-            return null;
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         List<Transaction> result = new ArrayList<>();
         for(Transaction x : transactionrepository.findAll()){
@@ -73,7 +73,7 @@ public class TransactionController {
                 result.add(x);
             }
         }
-        return result;
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     /**
@@ -119,17 +119,17 @@ public class TransactionController {
      * @return the deleted Transaction
      */
     @DeleteMapping("/removeTransaction")
-    Transaction removeTransaction(@RequestBody removeTransactionRequest rtRequest){
+    ResponseEntity<Transaction> removeTransaction(@RequestBody removeTransactionRequest rtRequest){
         Users sender = usersRepository.findByName(rtRequest.sender);
         Users receiver = usersRepository.findByName(rtRequest.receiver);
         if(!sender.getToken().equals(rtRequest.token) && !receiver.getToken().equals(rtRequest.token))
-            return new Transaction();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         if(validateUserInput(rtRequest.receiver)) {
             for (Transaction x : transactionrepository.findAll()) {
                 if (x.getSender() == sender && x.getReceiver() == receiver) {
                     transactionrepository.delete(x);
                     TransactionGraph.listOfTransactions= (ArrayList<Transaction>) transactionrepository.findAll();
-                    return x;
+                    return new ResponseEntity<>(x, HttpStatus.OK);
                 }
             }
         }

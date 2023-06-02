@@ -1,6 +1,9 @@
 package server.app.Users;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.app.Transaction.TransactionRepository;
 import server.app.requests.UserRegisterRequest;
@@ -49,12 +52,12 @@ public class UsersController {
      * @return User
      */
     @GetMapping("/users/{name}")
-    Users userByName(@RequestBody getUserRequest urRequest){
+    ResponseEntity<Users> userByName(@RequestBody getUserRequest urRequest){
         Users result = usersRepository.findByName(urRequest.username);
         if(!isNull(result) && Objects.equals(result.getToken(), urRequest.token))
-            return result;
+            return new ResponseEntity<>(result, HttpStatus.OK);
         else
-            return null;
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -62,15 +65,17 @@ public class UsersController {
      * @param urRequest  request with certain users
      */
     @PostMapping("/users/remove/{name}")
-    void removeUser(@RequestBody getUserRequest urRequest){
-        usersRepository.delete(userByName(urRequest));
+    ResponseEntity<String> removeUser(@RequestBody getUserRequest urRequest){
+        usersRepository.delete(Objects.requireNonNull(userByName(urRequest).getBody()));
         ObjectMapper objectMapper = new ObjectMapper();
         List<Users> users;
         users = usersRepository.findAll();
         try {
             objectMapper.writeValue(new File("requests/src/main/resources/usersBackup.json"),users);
+            return new ResponseEntity<>(HttpStatus.OK);
         }catch (IOException e){
             e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -81,23 +86,26 @@ public class UsersController {
      * @throws NoSuchAlgorithmException
      */
     @PostMapping("/users/register")
-    Users register(@RequestBody UserRegisterRequest urRequest) throws NoSuchAlgorithmException {
+    ResponseEntity<Users> register(@RequestBody UserRegisterRequest urRequest) throws NoSuchAlgorithmException {
         if(!isNull(usersRepository.findByName(urRequest.username)))
             return null;
-        Users user = new Users();
+        Users user;
         if(validateUserInput(urRequest.username) && validateUserInput(urRequest.password)) {
             user = new Users(urRequest.username, urRequest.password);
             usersRepository.save(user);
+            ObjectMapper objectMapper = new ObjectMapper();
+            List<Users> users;
+            users = usersRepository.findAll();
+            try {
+                objectMapper.writeValue(new File("requests/src/main/resources/usersBackup.json"),users);
+            }catch (IOException e){
+                e.printStackTrace();
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(user, HttpStatus.OK);
         }
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<Users> users;
-        users = usersRepository.findAll();
-        try {
-            objectMapper.writeValue(new File("requests/src/main/resources/usersBackup.json"),users);
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-        return user;
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
     }
 
     /**
@@ -107,12 +115,13 @@ public class UsersController {
      * @throws NoSuchAlgorithmException
      */
     @PostMapping("/users/login")
-    Users login(@RequestBody UserRegisterRequest urRequest) throws NoSuchAlgorithmException{
-        Users user = new Users();
+    ResponseEntity<Users> login(@RequestBody UserRegisterRequest urRequest) throws NoSuchAlgorithmException{
+        Users user;
         if(validateUserInput(urRequest.username) && validateUserInput(urRequest.password)){
             user = usersRepository.Login(urRequest.username, Users.hashPassword(urRequest.password));
+            return new ResponseEntity<>(user, HttpStatus.OK);
         }
-            return user;
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -122,17 +131,18 @@ public class UsersController {
      * @throws NoSuchAlgorithmException
      */
     @PatchMapping("/users/changePassword")
-    Users changePassword(@RequestBody changePasswordRequest cPRequest) throws NoSuchAlgorithmException{
-        Users user = new Users();
+    ResponseEntity<Users> changePassword(@RequestBody changePasswordRequest cPRequest) throws NoSuchAlgorithmException{
+        Users user;
         if(validateUserInput(cPRequest.username) && validateUserInput(cPRequest.currentPassword) && validateUserInput(cPRequest.newPassword)){
             user = usersRepository.Login(cPRequest.username, Users.hashPassword(cPRequest.currentPassword));
             if(user.getToken().equals(cPRequest.token))
             {
                 usersRepository.getReferenceById(user.getId()).setHashedPasswd(cPRequest.newPassword);
                 usersRepository.save(user);
+                return new ResponseEntity<>(user,HttpStatus.OK);
             }
         }
-        return user;
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     /**
      * method used to validate the User's input: username or password
