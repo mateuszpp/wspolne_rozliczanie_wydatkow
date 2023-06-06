@@ -1,0 +1,28 @@
+<resources>
+
+	<string name="appName">IouCash</string>
+	<string name="loginTitle">Please login</string>
+	<string name="login">Login</string>
+	<string name="logout">Logout</string>
+	<string name="register">Register</string>
+	<string name="username">Username</string>
+	<string name="password">Password</string>
+	<string name="loginSuccess">Successfully logged in!</string>
+	<string name="errorPleaseFillAllFields">Please fill all the required fields</string>
+	<string name="errorPermission">Please grant permission to use this funcionality</string>
+	<string name="errorUserPasswordIncorrect">Either username or password is incorrect</string>
+	<string name="errorUnknown">An error occurred</string>
+
+	<string name="transactionTitle">%s -> %s</string>
+	<string name="transactionAmount">%.2f$</string>
+
+	<string name="settings">Settings</string>
+	<string name="version">App version</string>
+	<string name="appTheme">App theme</string>
+	<string name="appThemeDefault">System default</string>
+	<string name="appThemeLight">Light</string>
+	<string name="appThemeDark">Dark</string>
+	<string name="settingsGroupInfo">Info</string>
+	<string name="settingsGroupGeneral">General</string>
+
+</resources>

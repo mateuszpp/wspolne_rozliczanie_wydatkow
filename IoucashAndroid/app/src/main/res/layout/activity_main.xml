@@ -1,0 +1,42 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
+
+	<data>
+
+		<variable
+			name="viewModel"
+			type="com.aproteam.ioucash.viewmodel.MainViewModel"/>
+
+	</data>
+
+	<RelativeLayout
+		android:id="@+id/root"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+		<Button
+			android:id="@+id/logoutButton"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:onClick="@{()-> viewModel.callback.onLogout()}"
+			android:text="@string/logout"/>
+
+		<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_below="@+id/logoutButton"
+			app:onRefreshListener="@{() -> viewModel.onRefresh()}"
+			app:refreshing="@{viewModel.busy}">
+
+			<androidx.recyclerview.widget.RecyclerView
+				android:id="@+id/transactionList"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:overScrollMode="never"
+				app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+		</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+	</RelativeLayout>
+
+</layout>

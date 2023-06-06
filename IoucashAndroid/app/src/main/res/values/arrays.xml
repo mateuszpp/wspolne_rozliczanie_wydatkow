@@ -1,0 +1,14 @@
+<resources>
+
+	<string-array name="appThemes" translatable="false">
+		<item>@string/appThemeDefault</item>
+		<item>@string/appThemeLight</item>
+		<item>@string/appThemeDark</item>
+	</string-array>
+	<string-array name="appThemesValues" translatable="false">
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
+	</string-array>
+
+</resources>

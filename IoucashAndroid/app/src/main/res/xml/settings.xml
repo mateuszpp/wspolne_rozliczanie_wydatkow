@@ -1,0 +1,28 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:disableDependentsState="true">
+
+	<PreferenceCategory android:title="@string/settingsGroupGeneral">
+
+		<ListPreference
+			android:defaultValue="0"
+			android:entries="@array/appThemes"
+			android:entryValues="@array/appThemesValues"
+			android:key="APP_THEME"
+			android:summary="%s"
+			android:title="@string/appTheme"
+			app:useSimpleSummaryProvider="true"/>
+
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/settingsGroupInfo">
+
+		<Preference
+			android:key="version"
+			android:title="@string/version"/>
+
+	</PreferenceCategory>
+
+</PreferenceScreen>

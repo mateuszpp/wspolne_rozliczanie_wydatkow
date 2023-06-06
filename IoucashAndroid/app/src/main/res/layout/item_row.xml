@@ -1,0 +1,46 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
+
+	<data>
+
+		<variable
+			name="model"
+			type="com.aproteam.ioucash.model.Transaction"/>
+
+		<variable
+			name="itemClickListener"
+			type="com.aproteam.ioucash.viewmodel.CardClickListener"/>
+
+	</data>
+
+	<androidx.cardview.widget.CardView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:onClick="@{() -> itemClickListener.onCardClicked(model)}"
+		app:cardUseCompatPadding="true">
+
+		<LinearLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_margin="8dp"
+			android:orientation="vertical">
+
+			<TextView
+				android:id="@+id/tvAndroidName"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@{@string/transactionTitle(model.senderName, model.receiverName)}"
+				android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+
+			<TextView
+				android:id="@+id/tvAndroidVersion"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@{@string/transactionAmount(model.amount)}"
+				android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
+
+		</LinearLayout>
+
+	</androidx.cardview.widget.CardView>
+
+</layout>
