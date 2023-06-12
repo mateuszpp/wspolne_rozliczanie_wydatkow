@@ -104,7 +104,7 @@ public class ApiRepository {
         return data;
     }
 
-    public LiveData<User> changePassword(ChangeUserPasswordParams changeUserPasswordParams]) {
+    public LiveData<User> changePassword(ChangeUserPasswordParams changeUserPasswordParams) {
         MutableLiveData<User> data = new MutableLiveData<>();
         ChangeUserPasswordParams params = changeUserPasswordParams;
         apiService.changePassword(params).enqueue(new Callback<User>() {
