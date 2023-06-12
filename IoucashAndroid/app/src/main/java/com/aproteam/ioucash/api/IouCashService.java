@@ -11,6 +11,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -32,11 +33,15 @@ public interface IouCashService {
 	@GET("/Transaction")
 	Call<List<Transaction>> getTransactions();
 
-	@POST("/removeTransaction")
+	@DELETE("/removeTransaction")
 	Call<List<Transaction>> removeTransaction(@Body RemoveTransactionParams removeTransactionParams);
 
 	@POST("/addTransaction")
 	Call<List<Transaction>> addTransaction(@Body UserTransactionRequestParams userTransactionRequestParams);
 
+	@GET("Transaction/bySender/{sender}")
+	Call<List<Transaction>> getTransactionsBySender(@Path ("sender") String senderName);
 
+	@GET("Transaction/byReceiver/{receiver}")
+	Call<List<Transaction>> getTransactionsByReceiver(@Path ("receiver") String receiverName);
 }
