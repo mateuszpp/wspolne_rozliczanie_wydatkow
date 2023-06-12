@@ -34,7 +34,7 @@ public interface IouCashService {
 	Call<List<Transaction>> getTransactions();
 
 	@DELETE("/removeTransaction")
-	Call<List<Transaction>> removeTransaction(@Body RemoveTransactionParams removeTransactionParams);
+	Call<Transaction> removeTransaction(@Body RemoveTransactionParams removeTransactionParams);
 
 	@POST("/addTransaction")
 	Call<List<Transaction>> addTransaction(@Body UserTransactionRequestParams userTransactionRequestParams);
