@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.aproteam.ioucash.Constants;
+import com.aproteam.ioucash.activity.MainActivity;
 import com.aproteam.ioucash.api.requestbody.ChangeUserPasswordParams;
 import com.aproteam.ioucash.api.requestbody.RemoveTransactionParams;
 import com.aproteam.ioucash.api.requestbody.UserAuthorizationParams;
@@ -162,7 +163,7 @@ public class ApiRepository {
 
     public LiveData<List<Transaction>> getTransactionsBySender(UserRequestParams userRequestParams) {
         MutableLiveData<List<Transaction>> data = new MutableLiveData<>();
-        apiService.getTransactionsBySender(userRequestParams).enqueue(new Callback<List<Transaction>>() {
+        apiService.getTransactionsBySender(userRequestParams.username, userRequestParams).enqueue(new Callback<List<Transaction>>() {
             @Override
             public void onResponse(Call<List<Transaction>> call, Response<List<Transaction>> response) {
                 data.postValue(response.body());
@@ -179,7 +180,7 @@ public class ApiRepository {
 
     public LiveData<List<Transaction>> getTransactionsByReceiver(UserRequestParams userRequestParams) {
         MutableLiveData<List<Transaction>> data = new MutableLiveData<>();
-        apiService.getTransactionsByReceiver(userRequestParams).enqueue(new Callback<List<Transaction>>() {
+        apiService.getTransactionsByReceiver(userRequestParams.username, userRequestParams).enqueue(new Callback<List<Transaction>>() {
             @Override
             public void onResponse(Call<List<Transaction>> call, Response<List<Transaction>> response) {
                 data.postValue(response.body());

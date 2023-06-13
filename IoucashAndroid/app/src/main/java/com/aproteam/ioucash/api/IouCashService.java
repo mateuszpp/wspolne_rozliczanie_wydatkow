@@ -41,8 +41,8 @@ public interface IouCashService {
 	Call<Object> addTransaction(@Body UserTransactionRequestParams userTransactionRequestParams);
 
 	@GET("Transaction/bySender/{sender}")
-	Call<List<Transaction>> getTransactionsBySender(@Body UserRequestParams userRequestParams);
+	Call<List<Transaction>> getTransactionsBySender(@Path ("sender") String senderName, @Body UserRequestParams userRequestParams);
 
 	@GET("Transaction/byReceiver/{receiver}")
-	Call<List<Transaction>> getTransactionsByReceiver(@Body UserRequestParams userRequestParams);
+	Call<List<Transaction>> getTransactionsByReceiver(@Path ("receiver") String receiverName, @Body UserRequestParams userRequestParams);
 }
