@@ -178,7 +178,7 @@ public class ApiRepository {
 
     public LiveData<List<Transaction>> getTransactionsByReceiver(String receiverName) {
         MutableLiveData<List<Transaction>> data = new MutableLiveData<>();
-        apiService.getTransactionsBySender(receiverName).enqueue(new Callback<List<Transaction>>() {
+        apiService.getTransactionsByReceiver(receiverName).enqueue(new Callback<List<Transaction>>() {
             @Override
             public void onResponse(Call<List<Transaction>> call, Response<List<Transaction>> response) {
                 data.postValue(response.body());
