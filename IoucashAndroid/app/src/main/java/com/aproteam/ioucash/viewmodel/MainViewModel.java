@@ -2,6 +2,7 @@ package com.aproteam.ioucash.viewmodel;
 
 import android.annotation.SuppressLint;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -12,6 +13,7 @@ import com.aproteam.ioucash.api.requestbody.UserRequestParams;
 import com.aproteam.ioucash.model.Transaction;
 import com.aproteam.ioucash.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SuppressLint("StaticFieldLeak")
@@ -37,14 +39,12 @@ public class MainViewModel extends ViewModel {
 	public void onRefresh() {
 		busy.setValue(true);
 		UserRequestParams params = new UserRequestParams(activity.getSessionManager().readUserData());
-		repository.getTransactionsByReceiver(params).observe(activity, transactions -> {
-			busy.setValue(false);
-			transactionsData.postValue(transactions);
-		});
-		repository.getTransactionsBySender(params).observe(activity, transactions -> {
-			busy.setValue(false);
-			transactionsData.postValue(transactions);
-		});
+		List<Transaction> receiverTransactions = repository.getTransactionsByReceiver(params).getValue();
+		List<Transaction> senderTransactions = repository.getTransactionsBySender(params).getValue();
+		List<Transaction> allTransactions = receiverTransactions;
+		allTransactions.addAll(senderTransactions);
+		transactionsData.postValue(allTransactions);
+		busy.setValue(false);
 	}
 
 	public MutableLiveData<List<Transaction>> getTransations() {
