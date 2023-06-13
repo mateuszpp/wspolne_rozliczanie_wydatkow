@@ -1,21 +1,24 @@
 package com.aproteam.ioucash.api;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.view.menu.ListMenuItemView;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.aproteam.ioucash.App;
 import com.aproteam.ioucash.Constants;
+import com.aproteam.ioucash.SessionManager;
 import com.aproteam.ioucash.api.requestbody.ChangeUserPasswordParams;
-import com.aproteam.ioucash.api.requestbody.RemoveTransactionParams;
 import com.aproteam.ioucash.api.requestbody.UserAuthorizationParams;
 import com.aproteam.ioucash.api.requestbody.UserTransactionRequestParams;
 import com.aproteam.ioucash.model.Transaction;
 import com.aproteam.ioucash.model.User;
 
+import java.io.IOException;
 import java.util.List;
 
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,7 +33,16 @@ public class ApiRepository {
     public ApiRepository() {
         apiService = new Retrofit.Builder()
                 .baseUrl(Constants.API_BASE_URL)
-                .client(new OkHttpClient.Builder().addInterceptor(
+                .client(new OkHttpClient.Builder().addInterceptor(chain -> {
+                    Request.Builder builder = chain.request().newBuilder();
+                    SessionManager sessionManager = SessionManager.getInstance(App.get());
+                    User user = sessionManager.readUserData();
+                    if (user != null) {
+                        builder.addHeader("token", user.token);
+                    }
+                    Request request = builder.build();
+                    return chain.proceed(request);
+                }).addInterceptor(
                         new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
                 ).build())
                 .addConverterFactory(GsonConverterFactory.create())
@@ -125,9 +137,9 @@ public class ApiRepository {
         return data;
     }
 
-    public LiveData<Transaction> removeTransaction(RemoveTransactionParams params) {
+    public LiveData<Transaction> removeTransaction(Transaction transaction) {
         MutableLiveData<Transaction> data = new MutableLiveData<>();
-        apiService.removeTransaction(params).enqueue(new Callback<Transaction>() {
+        apiService.removeTransaction(transaction.sender.username, transaction.receiver.username).enqueue(new Callback<Transaction>() {
             @Override
             public void onResponse(Call<Transaction> call, Response<Transaction> response) {
                 data.postValue(response.body());

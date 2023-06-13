@@ -13,7 +13,6 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
-import retrofit2.http.HTTP;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -34,8 +33,8 @@ public interface IouCashService {
 	@GET("/Transaction")
 	Call<List<Transaction>> getTransactions();
 
-	@HTTP(method = "DELETE", path = "/removeTransaction", hasBody = true)
-	Call<Transaction> removeTransaction(@Body RemoveTransactionParams removeTransactionParams);
+	@DELETE("/removeTransaction/{sender}/{receiver}")
+	Call<Transaction> removeTransaction(@Path ("sender") String sender, @Path ("receiver") String receiver);
 
 	@POST("/addTransaction")
 	Call<Object> addTransaction(@Body UserTransactionRequestParams userTransactionRequestParams);
