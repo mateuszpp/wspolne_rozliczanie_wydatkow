@@ -4,13 +4,17 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.aproteam.ioucash.App;
 import com.aproteam.ioucash.R;
 import com.aproteam.ioucash.adapter.TransactionsAdapter;
 import com.aproteam.ioucash.databinding.ActivityMainBinding;
+import com.aproteam.ioucash.model.Transaction;
 import com.aproteam.ioucash.viewmodel.MainViewModel;
 
 public class MainActivity extends BaseActivity implements MainViewModel.MainModelCallback {
@@ -29,6 +33,20 @@ public class MainActivity extends BaseActivity implements MainViewModel.MainMode
 
 		transactionsAdapter = new TransactionsAdapter(this);
 		binding.transactionList.setAdapter(transactionsAdapter);
+		ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+			@Override
+			public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+				return false;
+			}
+
+			@Override
+			public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int swipeDir) {
+				Transaction transaction = transactionsAdapter.getItem(viewHolder.getBindingAdapterPosition());
+				mainViewModel.removeTransaction(transaction);
+			}
+		});
+		itemTouchHelper.attachToRecyclerView(binding.transactionList);
+
 		mainViewModel.getTransations().observe(this, userArrayList -> {
 			if (userArrayList == null)
 				App.toast(R.string.errorUnknown);
@@ -61,6 +79,11 @@ public class MainActivity extends BaseActivity implements MainViewModel.MainMode
 		getSessionManager().logout();
 		finish();
 		startActivity(new Intent(this, LoginActivity.class));
+	}
+
+	@Override
+	public void onAddTransaction() {
+
 	}
 
 }

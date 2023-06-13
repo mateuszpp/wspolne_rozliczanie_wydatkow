@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.aproteam.ioucash.activity.BaseActivity;
 import com.aproteam.ioucash.api.ApiRepository;
+import com.aproteam.ioucash.api.requestbody.RemoveTransactionParams;
 import com.aproteam.ioucash.model.Transaction;
 
 import java.util.List;
@@ -39,6 +40,18 @@ public class MainViewModel extends ViewModel {
 		});
 	}
 
+	public void removeTransaction(Transaction transaction) {
+		busy.setValue(true);
+		repository.removeTransaction(new RemoveTransactionParams(
+				transaction.sender.username,
+				transaction.receiver.username,
+				activity.getSessionManager().readUserData().token)
+		).observe(activity, removedTransaction -> {
+			busy.setValue(false);
+			onRefresh();
+		});
+	}
+
 	public MutableLiveData<List<Transaction>> getTransations() {
 		return transactionsData;
 	}
@@ -53,6 +66,8 @@ public class MainViewModel extends ViewModel {
 
 	public interface MainModelCallback {
 		void onLogout();
+
+		void onAddTransaction();
 	}
 
 	public MainModelCallback getCallback() {

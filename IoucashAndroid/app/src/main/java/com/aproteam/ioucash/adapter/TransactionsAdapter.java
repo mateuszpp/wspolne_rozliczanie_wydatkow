@@ -49,6 +49,10 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
 		return transactions.size();
 	}
 
+	public Transaction getItem(int position) {
+		return transactions.get(position);
+	}
+
 	public void updateData(List<Transaction> newTransactions) {
 		transactions.clear();
 		transactions.addAll(newTransactions);
