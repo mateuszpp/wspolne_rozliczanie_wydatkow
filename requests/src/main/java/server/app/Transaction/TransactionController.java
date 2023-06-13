@@ -60,9 +60,10 @@ public class TransactionController {
      * @return list of transactions in which the name of user was involved as Receiver
      */
     @GetMapping("/Transaction/byReceiver/{receiver}")
-    ResponseEntity<List<Transaction>> TransactionByReceiver(@RequestBody getUserRequest urRequest){
-        Users receivingUser = usersRepository.findByName(urRequest.username);
-        if(!receivingUser.getToken().equals(urRequest.token)){
+    ResponseEntity<List<Transaction>> TransactionByReceiver(@PathVariable(value="receiver") String receiverName,
+                                                            @RequestHeader(value="token") String token){
+        Users receivingUser = usersRepository.findByName(receiverName);
+        if(!receivingUser.getToken().equals(token)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         List<Transaction> result = new ArrayList<>();
