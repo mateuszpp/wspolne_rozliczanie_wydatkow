@@ -37,7 +37,7 @@ public interface IouCashService {
 	Call<Transaction> removeTransaction(@Body RemoveTransactionParams removeTransactionParams);
 
 	@POST("/addTransaction")
-	Call<List<Transaction>> addTransaction(@Body UserTransactionRequestParams userTransactionRequestParams);
+	Call<Object> addTransaction(@Body UserTransactionRequestParams userTransactionRequestParams);
 
 	@GET("Transaction/bySender/{sender}")
 	Call<List<Transaction>> getTransactionsBySender(@Path ("sender") String senderName);

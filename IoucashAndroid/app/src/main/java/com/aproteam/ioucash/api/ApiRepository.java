@@ -1,6 +1,7 @@
 package com.aproteam.ioucash.api;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.view.menu.ListMenuItemView;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -8,6 +9,7 @@ import com.aproteam.ioucash.Constants;
 import com.aproteam.ioucash.api.requestbody.ChangeUserPasswordParams;
 import com.aproteam.ioucash.api.requestbody.RemoveTransactionParams;
 import com.aproteam.ioucash.api.requestbody.UserAuthorizationParams;
+import com.aproteam.ioucash.api.requestbody.UserTransactionRequestParams;
 import com.aproteam.ioucash.model.Transaction;
 import com.aproteam.ioucash.model.User;
 
@@ -140,6 +142,55 @@ public class ApiRepository {
         return data;
     }
 
-	//do uzupełnienia add transaction,by sender, by receiver
+    public LiveData<Object> addTransaction(UserTransactionRequestParams params) {
+        MutableLiveData<Object> data = new MutableLiveData<>();
+        apiService.addTransaction(params).enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                data.postValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                data.postValue(null);
+                t.printStackTrace();
+            }
+        });
+        return data;
+    }
+
+    public LiveData<List<Transaction>> getTransactionsBySender(String senderName) {
+        MutableLiveData<List<Transaction>> data = new MutableLiveData<>();
+        apiService.getTransactionsBySender(senderName).enqueue(new Callback<List<Transaction>>() {
+            @Override
+            public void onResponse(Call<List<Transaction>> call, Response<List<Transaction>> response) {
+                data.postValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Transaction>> call, Throwable t) {
+                data.postValue(null);
+                t.printStackTrace();
+            }
+        });
+        return data;
+    }
+
+    public LiveData<List<Transaction>> getTransactionsByReceiver(String receiverName) {
+        MutableLiveData<List<Transaction>> data = new MutableLiveData<>();
+        apiService.getTransactionsBySender(receiverName).enqueue(new Callback<List<Transaction>>() {
+            @Override
+            public void onResponse(Call<List<Transaction>> call, Response<List<Transaction>> response) {
+                data.postValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Transaction>> call, Throwable t) {
+                data.postValue(null);
+                t.printStackTrace();
+            }
+        });
+        return data;
+    }
 
 }
