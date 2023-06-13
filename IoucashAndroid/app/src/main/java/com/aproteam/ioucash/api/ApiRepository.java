@@ -9,6 +9,7 @@ import com.aproteam.ioucash.Constants;
 import com.aproteam.ioucash.api.requestbody.ChangeUserPasswordParams;
 import com.aproteam.ioucash.api.requestbody.RemoveTransactionParams;
 import com.aproteam.ioucash.api.requestbody.UserAuthorizationParams;
+import com.aproteam.ioucash.api.requestbody.UserRequestParams;
 import com.aproteam.ioucash.api.requestbody.UserTransactionRequestParams;
 import com.aproteam.ioucash.model.Transaction;
 import com.aproteam.ioucash.model.User;
@@ -159,9 +160,9 @@ public class ApiRepository {
         return data;
     }
 
-    public LiveData<List<Transaction>> getTransactionsBySender(String senderName) {
+    public LiveData<List<Transaction>> getTransactionsBySender(UserRequestParams userRequestParams) {
         MutableLiveData<List<Transaction>> data = new MutableLiveData<>();
-        apiService.getTransactionsBySender(senderName).enqueue(new Callback<List<Transaction>>() {
+        apiService.getTransactionsBySender(userRequestParams).enqueue(new Callback<List<Transaction>>() {
             @Override
             public void onResponse(Call<List<Transaction>> call, Response<List<Transaction>> response) {
                 data.postValue(response.body());
@@ -176,9 +177,9 @@ public class ApiRepository {
         return data;
     }
 
-    public LiveData<List<Transaction>> getTransactionsByReceiver(String receiverName) {
+    public LiveData<List<Transaction>> getTransactionsByReceiver(UserRequestParams userRequestParams) {
         MutableLiveData<List<Transaction>> data = new MutableLiveData<>();
-        apiService.getTransactionsBySender(receiverName).enqueue(new Callback<List<Transaction>>() {
+        apiService.getTransactionsByReceiver(userRequestParams).enqueue(new Callback<List<Transaction>>() {
             @Override
             public void onResponse(Call<List<Transaction>> call, Response<List<Transaction>> response) {
                 data.postValue(response.body());

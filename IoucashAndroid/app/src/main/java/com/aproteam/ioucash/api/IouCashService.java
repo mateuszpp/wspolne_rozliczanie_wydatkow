@@ -3,6 +3,7 @@ package com.aproteam.ioucash.api;
 import com.aproteam.ioucash.api.requestbody.ChangeUserPasswordParams;
 import com.aproteam.ioucash.api.requestbody.RemoveTransactionParams;
 import com.aproteam.ioucash.api.requestbody.UserAuthorizationParams;
+import com.aproteam.ioucash.api.requestbody.UserRequestParams;
 import com.aproteam.ioucash.api.requestbody.UserTransactionRequestParams;
 import com.aproteam.ioucash.model.Transaction;
 import com.aproteam.ioucash.model.User;
@@ -40,8 +41,8 @@ public interface IouCashService {
 	Call<Object> addTransaction(@Body UserTransactionRequestParams userTransactionRequestParams);
 
 	@GET("Transaction/bySender/{sender}")
-	Call<List<Transaction>> getTransactionsBySender(@Path ("sender") String senderName);
+	Call<List<Transaction>> getTransactionsBySender(@Body UserRequestParams userRequestParams);
 
 	@GET("Transaction/byReceiver/{receiver}")
-	Call<List<Transaction>> getTransactionsByReceiver(@Path ("receiver") String receiverName);
+	Call<List<Transaction>> getTransactionsByReceiver(@Body UserRequestParams userRequestParams);
 }

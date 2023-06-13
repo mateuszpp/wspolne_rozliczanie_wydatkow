@@ -5,9 +5,12 @@ import android.annotation.SuppressLint;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.aproteam.ioucash.SessionManager;
 import com.aproteam.ioucash.activity.BaseActivity;
 import com.aproteam.ioucash.api.ApiRepository;
+import com.aproteam.ioucash.api.requestbody.UserRequestParams;
 import com.aproteam.ioucash.model.Transaction;
+import com.aproteam.ioucash.model.User;
 
 import java.util.List;
 
@@ -33,7 +36,12 @@ public class MainViewModel extends ViewModel {
 
 	public void onRefresh() {
 		busy.setValue(true);
-		repository.getTransactions().observe(activity, transactions -> {
+		UserRequestParams params = new UserRequestParams(SessionManager.getInstance(null).readUserData());
+		repository.getTransactionsByReceiver(params).observe(activity, transactions -> {
+			busy.setValue(false);
+			transactionsData.postValue(transactions);
+		});
+		repository.getTransactionsBySender(params).observe(activity, transactions -> {
 			busy.setValue(false);
 			transactionsData.postValue(transactions);
 		});

@@ -73,4 +73,7 @@ public class SessionManager {
 		return new File(context.getFilesDir(), "userdata.json");
 	}
 
+	public Context getContext() {
+		return context;
+	}
 }
