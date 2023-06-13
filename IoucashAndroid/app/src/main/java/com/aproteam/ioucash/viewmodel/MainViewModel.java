@@ -2,18 +2,14 @@ package com.aproteam.ioucash.viewmodel;
 
 import android.annotation.SuppressLint;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.aproteam.ioucash.SessionManager;
 import com.aproteam.ioucash.activity.BaseActivity;
 import com.aproteam.ioucash.api.ApiRepository;
 import com.aproteam.ioucash.api.requestbody.UserRequestParams;
 import com.aproteam.ioucash.model.Transaction;
-import com.aproteam.ioucash.model.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @SuppressLint("StaticFieldLeak")
@@ -24,12 +20,14 @@ public class MainViewModel extends ViewModel {
 	private BaseActivity activity;
 	private MainModelCallback callback;
 
-	public MutableLiveData<List<Transaction>> transactionsData;
+	public MutableLiveData<List<Transaction>> transactionsDataBySender;
+	public MutableLiveData<List<Transaction>> transactionsDataByReceiver;
 	public MutableLiveData<Boolean> busy = new MutableLiveData<>(false);
 
 	public MainViewModel() {
 		repository = new ApiRepository();
-		transactionsData = new MutableLiveData<>();
+		transactionsDataBySender = new MutableLiveData<>();
+		transactionsDataByReceiver = new MutableLiveData<>();
 	}
 
 	public void setActivity(BaseActivity activity) {
@@ -39,16 +37,23 @@ public class MainViewModel extends ViewModel {
 	public void onRefresh() {
 		busy.setValue(true);
 		UserRequestParams params = new UserRequestParams(activity.getSessionManager().readUserData());
-		List<Transaction> receiverTransactions = repository.getTransactionsByReceiver(params).getValue();
-		List<Transaction> senderTransactions = repository.getTransactionsBySender(params).getValue();
-		List<Transaction> allTransactions = receiverTransactions;
-		allTransactions.addAll(senderTransactions);
-		transactionsData.postValue(allTransactions);
+		repository.getTransactionsByReceiver(params).observe(activity, transactions -> {
+			if (transactions != null)
+				transactionsDataByReceiver.postValue(transactions);
+		});
+		repository.getTransactionsBySender(params).observe(activity, transactions -> {
+			if (transactions != null)
+				transactionsDataBySender.postValue(transactions);
+		});
 		busy.setValue(false);
 	}
 
-	public MutableLiveData<List<Transaction>> getTransations() {
-		return transactionsData;
+	public MutableLiveData<List<Transaction>> getTransactionsBySender() {
+		return transactionsDataBySender;
+	}
+
+	public MutableLiveData<List<Transaction>> getTransactionsByReceiver() {
+		return transactionsDataByReceiver;
 	}
 
 	public MutableLiveData<Boolean> getBusy() {

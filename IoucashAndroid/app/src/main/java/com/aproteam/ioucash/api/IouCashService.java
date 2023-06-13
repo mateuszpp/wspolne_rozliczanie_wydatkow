@@ -16,6 +16,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface IouCashService {
 
@@ -41,8 +42,8 @@ public interface IouCashService {
 	Call<Object> addTransaction(@Body UserTransactionRequestParams userTransactionRequestParams);
 
 	@GET("Transaction/bySender/{sender}")
-	Call<List<Transaction>> getTransactionsBySender(@Path ("sender") String senderName, @Body UserRequestParams userRequestParams);
+	Call<List<Transaction>> getTransactionsBySender(@Path ("sender") String senderName, @Query("username") String username, @Query("token") String token);
 
 	@GET("Transaction/byReceiver/{receiver}")
-	Call<List<Transaction>> getTransactionsByReceiver(@Path ("receiver") String receiverName, @Body UserRequestParams userRequestParams);
+	Call<List<Transaction>> getTransactionsByReceiver(@Path ("receiver") String receiverName, @Query("username") String username, @Query("token") String token);
 }
