@@ -2,7 +2,6 @@ package server.app.Users;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.app.Transaction.TransactionRepository;
@@ -13,7 +12,6 @@ import server.app.requests.getUserRequest;
 import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -46,15 +44,12 @@ public class UsersController {
         return usersRepository.findAll();
     }
 
-    /**
-     * The response is certain user from users repository
-     * @param urRequest request with certain users
-     * @return User
-     */
+
     @GetMapping("/users/{name}")
-    ResponseEntity<Users> userByName(@RequestBody getUserRequest urRequest){
-        Users result = usersRepository.findByName(urRequest.username);
-        if(!isNull(result) && Objects.equals(result.getToken(), urRequest.token))
+    ResponseEntity<Users> userByName(@RequestHeader("token") String token,
+                                     @PathVariable("name") String username){
+        Users result = usersRepository.findByName(username);
+        if(!isNull(result) && Objects.equals(result.getToken(), token))
             return new ResponseEntity<>(result, HttpStatus.OK);
         else
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -66,7 +61,7 @@ public class UsersController {
      */
     @PostMapping("/users/remove/{name}")
     ResponseEntity<String> removeUser(@RequestBody getUserRequest urRequest){
-        usersRepository.delete(Objects.requireNonNull(userByName(urRequest).getBody()));
+        usersRepository.delete(Objects.requireNonNull(userByName(urRequest.token,urRequest.username).getBody()));
         ObjectMapper objectMapper = new ObjectMapper();
         List<Users> users;
         users = usersRepository.findAll();
