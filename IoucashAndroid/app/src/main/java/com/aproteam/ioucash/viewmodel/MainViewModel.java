@@ -20,14 +20,12 @@ public class MainViewModel extends ViewModel {
 	private BaseActivity activity;
 	private MainModelCallback callback;
 
-	public MutableLiveData<List<Transaction>> transactionsDataBySender;
-	public MutableLiveData<List<Transaction>> transactionsDataByReceiver;
+	public MutableLiveData<List<Transaction>> transactionsDataBySender = new MutableLiveData<>();
+	public MutableLiveData<List<Transaction>> transactionsDataByReceiver = new MutableLiveData<>();
 	public MutableLiveData<Boolean> busy = new MutableLiveData<>(false);
 
 	public MainViewModel() {
 		repository = new ApiRepository();
-		transactionsDataBySender = new MutableLiveData<>();
-		transactionsDataByReceiver = new MutableLiveData<>();
 	}
 
 	public void setActivity(BaseActivity activity) {
@@ -40,12 +38,13 @@ public class MainViewModel extends ViewModel {
 		repository.getTransactionsByReceiver(params).observe(activity, transactions -> {
 			if (transactions != null)
 				transactionsDataByReceiver.postValue(transactions);
+			busy.setValue(false);
 		});
 		repository.getTransactionsBySender(params).observe(activity, transactions -> {
 			if (transactions != null)
 				transactionsDataBySender.postValue(transactions);
+			busy.setValue(false);
 		});
-		busy.setValue(false);
 	}
 
 	public MutableLiveData<List<Transaction>> getTransactionsBySender() {

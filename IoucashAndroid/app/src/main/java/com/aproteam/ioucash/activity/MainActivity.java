@@ -100,7 +100,7 @@ public class MainActivity extends BaseActivity implements MainViewModel.MainMode
 
 	@Override
 	public void onAddTransaction() {
-
+		startActivity(new Intent(this, AddTransactionActivity.class));
 	}
 
 }

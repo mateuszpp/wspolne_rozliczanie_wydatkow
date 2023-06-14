@@ -1,0 +1,109 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	tools:ignore="Autofill">
+
+	<data>
+
+		<variable
+			name="viewModel"
+			type="com.aproteam.ioucash.viewmodel.AddTransactionViewModel"/>
+
+	</data>
+
+	<ScrollView
+		android:id="@+id/root"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:overScrollMode="never">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:layout_margin="8dp"
+			android:orientation="vertical">
+
+			<com.google.android.material.textfield.TextInputLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				app:error="@{viewModel.senderError}"
+				app:errorEnabled="true">
+
+				<AutoCompleteTextView
+					android:id="@+id/senderEditText"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:hint="@string/from"
+					android:inputType="text"
+					android:padding="8dp"
+					android:text="@={viewModel.senderName}"/>
+
+			</com.google.android.material.textfield.TextInputLayout>
+
+			<ImageView
+				android:id="@+id/reverseOrder"
+				android:layout_width="48dp"
+				android:layout_height="48dp"
+				android:layout_gravity="center_horizontal"
+				android:adjustViewBounds="true"
+				android:contentDescription="@string/appName"
+				android:onClick="@{()-> viewModel.onReverseOrderClicked()}"
+				android:src="@drawable/ic_reverse"
+				app:tint="?android:attr/textColorPrimary"/>
+
+			<com.google.android.material.textfield.TextInputLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				app:error="@{viewModel.receiverError}"
+				app:errorEnabled="true">
+
+				<AutoCompleteTextView
+					android:id="@+id/receiverEditText"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:hint="@string/to"
+					android:inputType="text"
+					android:padding="8dp"
+					android:text="@={viewModel.receiverName}"/>
+
+			</com.google.android.material.textfield.TextInputLayout>
+
+			<com.google.android.material.textfield.TextInputLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				app:error="@{viewModel.receiverError}"
+				app:errorEnabled="true">
+
+				<com.google.android.material.textfield.TextInputEditText
+					android:id="@+id/amountEditText"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:hint="@string/amount"
+					android:inputType="numberDecimal"
+					android:padding="8dp"
+					android:text="@={viewModel.amount}"/>
+
+			</com.google.android.material.textfield.TextInputLayout>
+
+			<Button
+				android:id="@+id/addTransactionButton"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:onClick="@{()-> viewModel.onAddTransactionClicked()}"
+				android:text="@string/addTransaction"/>
+
+			<ProgressBar
+				android:id="@+id/progressBar"
+				style="?android:attr/progressBarStyleLarge"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:layout_marginTop="8dp"
+				android:visibility="@{viewModel.busy}"/>
+
+		</LinearLayout>
+
+	</ScrollView>
+
+</layout>

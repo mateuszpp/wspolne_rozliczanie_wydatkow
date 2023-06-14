@@ -24,7 +24,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\Kuba\AppData\Local\Temp\baseline_settings_24.xml" />
+                                                <entry key="imagePath" value="C:\Users\Kuba\AppData\Local\Temp\baseline_sync_24.xml" />
                                                 <entry key="opacityPercent" value="80" />
                                               </map>
                                             </option>
@@ -36,7 +36,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="file:/$PROJECT_DIR$/../../../android-sdk-windows/icons/material/materialicons/settings/baseline_settings_24.xml" />
+                                                <entry key="url" value="file:/$PROJECT_DIR$/../../../../android-sdk-windows/icons/material/materialicons/sync/baseline_sync_24.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -68,7 +68,7 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="outputName" value="ic_action_settings" />
+                                      <entry key="outputName" value="ic_reverse" />
                                       <entry key="theme" value="CUSTOM" />
                                       <entry key="themeColor" value="ffffff" />
                                     </map>
@@ -87,18 +87,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="ffffff" />
-                                                <entry key="imagePath" value="C:\Users\Kuba\AppData\Local\Temp\baseline_attach_money_24.xml" />
-                                              </map>
-                                            </option>
-                                          </PersistentState>
-                                        </value>
-                                      </entry>
-                                      <entry key="foregroundClipartAsset">
-                                        <value>
-                                          <PersistentState>
-                                            <option name="values">
-                                              <map>
-                                                <entry key="url" value="file:/$PROJECT_DIR$/../../../android-sdk-windows/icons/material/materialicons/attach_money/baseline_attach_money_24.xml" />
+                                                <entry key="imagePath" value="C:\Users\Kuba\AppData\Local\Temp\ic_android_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>

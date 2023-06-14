@@ -203,4 +203,21 @@ public class ApiRepository {
         return data;
     }
 
+    public LiveData<List<User>> getUsers() {
+        MutableLiveData<List<User>> data = new MutableLiveData<>();
+        apiService.getUsers().enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<User>> call, @NonNull Response<List<User>> response) {
+                data.postValue(response.body());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<User>> call, @NonNull Throwable t) {
+                data.postValue(null);
+                t.printStackTrace();
+            }
+        });
+        return data;
+    }
+
 }

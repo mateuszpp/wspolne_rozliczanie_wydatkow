@@ -20,6 +20,9 @@ import retrofit2.http.Query;
 
 public interface IouCashService {
 
+	@GET("/users")
+	Call<List<User>> getUsers();
+
 	@POST("/users/remove/{name}")
 	Call<Object> removeUser(@Path("name") String username);
 

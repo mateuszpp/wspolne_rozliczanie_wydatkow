@@ -33,6 +33,11 @@
 			android:name=".activity.MainActivity"
 			android:exported="false"
 			android:launchMode="singleTask"/>
+		<activity
+			android:name=".activity.AddTransactionActivity"
+			android:exported="false"
+			android:label="@string/addTransactionTitle"
+			android:launchMode="singleTask"/>
 
 	</application>
 
