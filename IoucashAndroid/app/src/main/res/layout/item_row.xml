@@ -29,7 +29,7 @@
 				android:id="@+id/transactionTitle"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="@{@string/transactionTitle(model.senderName, model.receiverName)}"
+				android:text="@{model.getOtherName()}"
 				android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
 
 			<TextView
