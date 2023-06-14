@@ -60,21 +60,40 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
 		return transactions.get(position);
 	}
 
+	/**
+	 * Updates the data set with a new list of transactions and informs the adapter about the changes.
+	 *
+	 * @param newTransactions the new list of transactions
+	 */
 	public void updateData(List<Transaction> newTransactions) {
 		transactions.clear();
 		transactions.addAll(newTransactions);
 		notifyDataSetChanged();
 	}
 
+	/**
+	 * A static nested class representing a single item view in the RecyclerView.
+	 * It holds the binding and binds transaction data to the views.
+	 */
 	public static class ViewHolder extends RecyclerView.ViewHolder {
 
 		public ItemRowBinding itemRowBinding;
 
+		/**
+		 * Constructor of the ViewHolder static nested class.
+		 *
+		 * @param itemRowBinding the ItemRowBinding for the item view
+		 */
 		public ViewHolder(ItemRowBinding itemRowBinding) {
 			super(itemRowBinding.getRoot());
 			this.itemRowBinding = itemRowBinding;
 		}
 
+		/**
+		 * Binds the transaction object to the item view.
+		 *
+		 * @param obj the transaction object
+		 */
 		public void bind(Object obj) {
 			itemRowBinding.setVariable(BR.model, obj);
 			itemRowBinding.executePendingBindings();
@@ -82,6 +101,11 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
 
 	}
 
+	/**
+	 * Called when a card is clicked in the RecyclerView.
+	 *
+	 * @param transaction the clicked transaction object
+	 */
 	@Override
 	public void onCardClicked(Transaction transaction) {
 		Toast.makeText(activity, "You clicked " + transaction.getSenderName(), Toast.LENGTH_LONG).show();
