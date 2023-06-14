@@ -1,5 +1,8 @@
 package com.aproteam.ioucash.api.requestbody;
 
+/**
+ * Represents the parameters for changing user's password.
+ */
 public class ChangeUserPasswordParams {
 
 	public String username;

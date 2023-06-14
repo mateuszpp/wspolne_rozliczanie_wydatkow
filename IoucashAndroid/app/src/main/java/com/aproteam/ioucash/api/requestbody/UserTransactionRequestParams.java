@@ -1,5 +1,8 @@
 package com.aproteam.ioucash.api.requestbody;
 
+/**
+ * Represents the parameters for a user transaction request.
+ */
 public class UserTransactionRequestParams {
     public String sender;
 
