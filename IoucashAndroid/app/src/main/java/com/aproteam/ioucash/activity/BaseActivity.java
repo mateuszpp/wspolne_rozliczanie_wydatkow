@@ -27,6 +27,11 @@ import com.aproteam.ioucash.SessionManager;
 import com.aproteam.ioucash.model.User;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+/**
+
+ An abstract class that serves as the base for other activities in the application,
+ provides common functionality and basic methods.
+ */
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -37,6 +42,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 	public InputMethodManager imm;
 	public ClipboardManager clipboard;
 	int lastAppTheme;
+	/**
+	 * PreferenceChangeListener listens for changes in shared preferences and triggers the appropriate actions
+	 */
 	SharedPreferences.OnSharedPreferenceChangeListener preferenceChangeListener = (sharedPreferences, key) -> {
 		if (Prefs.APP_THEME.equals(key) && (lastAppTheme != Prefs.getThemePref(this)))
 			recreate();
@@ -68,6 +76,11 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 	public abstract boolean shouldShowBackButton();
 
+	/**
+	 * Applies layout transition animations to the specified view group.
+	 *
+	 * @param viewGroup the ViewGroup to apply layout transition animations to
+	 */
 	public void animateLayoutChanges(ViewGroup viewGroup) {
 		if (viewGroup != null) {
 			LayoutTransition transition = new LayoutTransition();
@@ -118,6 +131,13 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 	private Runnable afterPermissionRequestRunnable;
 
+	/**
+	 * Checks if the specified permission is granted and if yes,
+	 * it executes provided runnable, but if not it requests the permission.
+	 *
+	 * @param permission permission to check/request
+	 * @param runnable The runnable to execute when there is a permission
+	 */
 	public void checkAppPermissionAndRun(String permission, Runnable runnable) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
 			afterPermissionRequestRunnable = runnable;
