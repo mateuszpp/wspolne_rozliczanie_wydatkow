@@ -54,6 +54,12 @@ public class MainViewModel extends ViewModel {
 	public void removeTransaction(Transaction transaction) {
 		busy.setValue(true);
 		repository.removeTransaction(transaction).observe(activity, removedTransaction -> {
+			if (callback != null) {
+				if (removedTransaction != null)
+					callback.onTransactionRemoved();
+				else
+					callback.onTransactionNotRemoved();
+			}
 			busy.setValue(false);
 			onRefresh();
 		});
@@ -79,6 +85,10 @@ public class MainViewModel extends ViewModel {
 		void onLogout();
 
 		void onAddTransaction();
+
+		void onTransactionRemoved();
+
+		void onTransactionNotRemoved();
 	}
 
 	public MainModelCallback getCallback() {

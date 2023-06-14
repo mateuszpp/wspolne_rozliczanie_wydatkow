@@ -40,6 +40,10 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
 	public void onBindViewHolder(ViewHolder holder, int position) {
 		Transaction transaction = transactions.get(position);
 		holder.itemRowBinding.setModel(transaction);
+		boolean isFromMe = transaction.sender.username.equals(activity.getUser().username);
+		int color = activity.getResources().getColor(isFromMe ? R.color.red : R.color.green);
+		holder.itemRowBinding.transactionTitle.setTextColor(color);
+		holder.itemRowBinding.transactionSubtitle.setTextColor(color);
 		holder.bind(transaction);
 		holder.itemRowBinding.setItemClickListener(this);
 	}

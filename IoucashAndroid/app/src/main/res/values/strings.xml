@@ -19,6 +19,8 @@
 	<string name="to">To</string>
 	<string name="amount">Amount</string>
 	<string name="addTransaction">Add transaction</string>
+	<string name="transactionRemoved">Transaction removed!</string>
+	<string name="transactionNotRemoved">Error occurred while removing the transaction!</string>
 
 	<string name="transactionTitle">%s -> %s</string>
 	<string name="transactionAmount">%.2f$</string>

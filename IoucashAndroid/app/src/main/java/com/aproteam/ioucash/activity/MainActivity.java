@@ -39,6 +39,10 @@ public class MainActivity extends BaseActivity implements MainViewModel.MainMode
 		binding.setViewModel(mainViewModel);
 		binding.setLifecycleOwner(this);
 
+		setupList();
+	}
+
+	public void setupList() {
 		transactionsAdapter = new TransactionsAdapter(this);
 		binding.transactionList.setAdapter(transactionsAdapter);
 		ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -102,6 +106,16 @@ public class MainActivity extends BaseActivity implements MainViewModel.MainMode
 	@Override
 	public void onAddTransaction() {
 		startActivityForResult(new Intent(this, AddTransactionActivity.class), 0);
+	}
+
+	@Override
+	public void onTransactionRemoved() {
+		App.toast(R.string.transactionRemoved);
+	}
+
+	@Override
+	public void onTransactionNotRemoved() {
+		App.toast(R.string.transactionNotRemoved);
 	}
 
 	@Override
