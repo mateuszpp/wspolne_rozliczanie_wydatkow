@@ -34,7 +34,7 @@ public class MainViewModel extends ViewModel {
 
 	public void onRefresh() {
 		busy.setValue(true);
-		UserRequestParams params = new UserRequestParams(activity.getSessionManager().readUserData());
+		UserRequestParams params = new UserRequestParams(activity.getUser());
 		repository.getTransactionsByReceiver(params).observe(activity, transactions -> {
 			if (transactions != null)
 				transactionsDataByReceiver.postValue(transactions);

@@ -11,6 +11,7 @@ import com.aproteam.ioucash.api.requestbody.ChangeUserPasswordParams;
 import com.aproteam.ioucash.api.requestbody.UserAuthorizationParams;
 import com.aproteam.ioucash.api.requestbody.UserRequestParams;
 import com.aproteam.ioucash.api.requestbody.UserTransactionRequestParams;
+import com.aproteam.ioucash.model.Result;
 import com.aproteam.ioucash.model.Transaction;
 import com.aproteam.ioucash.model.User;
 
@@ -152,16 +153,16 @@ public class ApiRepository {
         return data;
     }
 
-    public LiveData<Object> addTransaction(UserTransactionRequestParams params) {
-        MutableLiveData<Object> data = new MutableLiveData<>();
-        apiService.addTransaction(params).enqueue(new Callback<Object>() {
+    public LiveData<Result> addTransaction(UserTransactionRequestParams params) {
+        MutableLiveData<Result> data = new MutableLiveData<>();
+        apiService.addTransaction(params).enqueue(new Callback<Result>() {
             @Override
-            public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
+            public void onResponse(@NonNull Call<Result> call, @NonNull Response<Result> response) {
                 data.postValue(response.body());
             }
 
             @Override
-            public void onFailure(@NonNull Call<Object> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<Result> call, @NonNull Throwable t) {
                 data.postValue(null);
                 t.printStackTrace();
             }

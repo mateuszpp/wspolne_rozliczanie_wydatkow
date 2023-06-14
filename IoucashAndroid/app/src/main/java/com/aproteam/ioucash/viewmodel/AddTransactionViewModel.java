@@ -1,7 +1,6 @@
 package com.aproteam.ioucash.viewmodel;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 import android.view.View;
 
 import androidx.lifecycle.MutableLiveData;
@@ -11,6 +10,7 @@ import androidx.lifecycle.ViewModel;
 import com.aproteam.ioucash.R;
 import com.aproteam.ioucash.activity.BaseActivity;
 import com.aproteam.ioucash.api.ApiRepository;
+import com.aproteam.ioucash.api.requestbody.UserTransactionRequestParams;
 import com.aproteam.ioucash.model.Transaction;
 import com.aproteam.ioucash.model.User;
 
@@ -32,18 +32,6 @@ public class AddTransactionViewModel extends ViewModel {
 
 	private BaseActivity activity;
 	private AddTransactionListener addTransactionListener;
-	private final Observer<User> userObserver = userResponse -> {
-		busy.setValue(View.GONE);
-		if (userResponse != null) {
-			//if (addTransactionListener != null)
-			//	addTransactionListener.onAddSuccess(userResponse);
-			receiverError.setValue(null);
-			senderError.setValue(null);
-		} else {
-			receiverError.setValue(activity.getString(R.string.errorUserPasswordIncorrect));
-			senderError.setValue(activity.getString(R.string.errorUserPasswordIncorrect));
-		}
-	};
 
 	public AddTransactionViewModel() {
 		repository = new ApiRepository();
@@ -51,10 +39,10 @@ public class AddTransactionViewModel extends ViewModel {
 
 	public void setActivity(BaseActivity activity) {
 		this.activity = activity;
-		senderName.setValue(activity.getSessionManager().readUserData().username);
+		senderName.setValue(activity.getUser().username);
 	}
 
-	public void setLoginListener(AddTransactionListener addTransactionListener) {
+	public void setListener(AddTransactionListener addTransactionListener) {
 		this.addTransactionListener = addTransactionListener;
 	}
 
@@ -76,11 +64,25 @@ public class AddTransactionViewModel extends ViewModel {
 		directionFromMe.postValue(!directionFromMe.getValue());
 	}
 
+	/** @noinspection DataFlowIssue*/
 	public void onAddTransactionClicked() {
 		if (checkIfFieldsEmpty())
 			return;
 		busy.setValue(View.VISIBLE);
-		repository.login(senderName.getValue(), receiverName.getValue()).observe(activity, userObserver);
+		repository.addTransaction(new UserTransactionRequestParams(senderName.getValue(), receiverName.getValue(), Double.parseDouble(amount.getValue()))).observe(activity, result -> {
+			busy.setValue(View.GONE);
+			if (result != null && result.success) {
+				if (addTransactionListener != null)
+					addTransactionListener.onAddSuccess();
+				receiverError.setValue(null);
+				senderError.setValue(null);
+			} else {
+				if (directionFromMe.getValue())
+					receiverError.setValue(activity.getString(R.string.errorUsernameIncorrect));
+				else
+					senderError.setValue(activity.getString(R.string.errorUsernameIncorrect));
+			}
+		});
 	}
 
 	public boolean checkIfFieldsEmpty() {
@@ -105,7 +107,7 @@ public class AddTransactionViewModel extends ViewModel {
 	}
 
 	public interface AddTransactionListener {
-		void onAddSuccess(Transaction transaction);
+		void onAddSuccess();
 	}
 
 }

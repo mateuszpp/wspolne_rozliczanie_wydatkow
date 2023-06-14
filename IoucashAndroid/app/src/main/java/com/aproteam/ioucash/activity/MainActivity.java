@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -26,13 +28,12 @@ public class MainActivity extends BaseActivity implements MainViewModel.MainMode
 
 	ActivityMainBinding binding;
 	TransactionsAdapter transactionsAdapter;
-	User user;
+	MainViewModel mainViewModel;
 
 	@Override
 	public void createUI() {
-		user = getSessionManager().readUserData();
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-		MainViewModel mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+		mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
 		mainViewModel.setActivity(this);
 		mainViewModel.setMainModelCallback(this);
 		binding.setViewModel(mainViewModel);
@@ -100,7 +101,15 @@ public class MainActivity extends BaseActivity implements MainViewModel.MainMode
 
 	@Override
 	public void onAddTransaction() {
-		startActivity(new Intent(this, AddTransactionActivity.class));
+		startActivityForResult(new Intent(this, AddTransactionActivity.class), 0);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			mainViewModel.onRefresh();
+		}
 	}
 
 }
