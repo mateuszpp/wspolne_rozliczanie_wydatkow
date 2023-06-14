@@ -7,6 +7,4 @@ public class UserTransactionRequest {
     public String receiver;
     public double amount;
 
-    public String token;
-
 }
