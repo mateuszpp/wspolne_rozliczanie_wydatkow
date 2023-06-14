@@ -2,6 +2,9 @@ package com.aproteam.ioucash.model;
 
 import androidx.annotation.NonNull;
 
+/**
+ * A class representing the user in the system.
+ */
 public class User extends ResponseErrorInfo {
 
 	public String username;
