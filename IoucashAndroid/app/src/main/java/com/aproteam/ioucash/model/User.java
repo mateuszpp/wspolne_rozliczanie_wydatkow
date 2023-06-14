@@ -9,4 +9,5 @@ public class User extends ResponseErrorInfo {
 	public double balance;
 	public int id;
 
+
 }

@@ -9,14 +9,13 @@ import com.aproteam.ioucash.Constants;
 import com.aproteam.ioucash.SessionManager;
 import com.aproteam.ioucash.api.requestbody.ChangeUserPasswordParams;
 import com.aproteam.ioucash.api.requestbody.UserAuthorizationParams;
+import com.aproteam.ioucash.api.requestbody.UserRequestParams;
 import com.aproteam.ioucash.api.requestbody.UserTransactionRequestParams;
 import com.aproteam.ioucash.model.Transaction;
 import com.aproteam.ioucash.model.User;
 
-import java.io.IOException;
 import java.util.List;
 
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -105,12 +104,12 @@ public class ApiRepository {
         MutableLiveData<Object> data = new MutableLiveData<>();
         apiService.removeUser(username).enqueue(new Callback<Object>() {
             @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
+            public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
                 data.postValue(response.body());
             }
 
             @Override
-            public void onFailure(Call<Object> call, Throwable t) {
+            public void onFailure(@NonNull Call<Object> call, @NonNull Throwable t) {
                 data.postValue(null);
                 t.printStackTrace();
             }
@@ -120,16 +119,15 @@ public class ApiRepository {
 
     public LiveData<User> changePassword(ChangeUserPasswordParams changeUserPasswordParams) {
         MutableLiveData<User> data = new MutableLiveData<>();
-        ChangeUserPasswordParams params = changeUserPasswordParams;
-        apiService.changePassword(params).enqueue(new Callback<User>() {
+        apiService.changePassword(changeUserPasswordParams).enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                 data.postValue(response.body());
 
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
                 data.postValue(null);
                 t.printStackTrace();
             }
@@ -141,12 +139,12 @@ public class ApiRepository {
         MutableLiveData<Transaction> data = new MutableLiveData<>();
         apiService.removeTransaction(transaction.sender.username, transaction.receiver.username).enqueue(new Callback<Transaction>() {
             @Override
-            public void onResponse(Call<Transaction> call, Response<Transaction> response) {
+            public void onResponse(@NonNull Call<Transaction> call, @NonNull Response<Transaction> response) {
                 data.postValue(response.body());
             }
 
             @Override
-            public void onFailure(Call<Transaction> call, Throwable t) {
+            public void onFailure(@NonNull Call<Transaction> call, @NonNull Throwable t) {
                 data.postValue(null);
                 t.printStackTrace();
             }
@@ -158,12 +156,12 @@ public class ApiRepository {
         MutableLiveData<Object> data = new MutableLiveData<>();
         apiService.addTransaction(params).enqueue(new Callback<Object>() {
             @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
+            public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
                 data.postValue(response.body());
             }
 
             @Override
-            public void onFailure(Call<Object> call, Throwable t) {
+            public void onFailure(@NonNull Call<Object> call, @NonNull Throwable t) {
                 data.postValue(null);
                 t.printStackTrace();
             }
@@ -171,16 +169,16 @@ public class ApiRepository {
         return data;
     }
 
-    public LiveData<List<Transaction>> getTransactionsBySender(String senderName) {
+    public LiveData<List<Transaction>> getTransactionsBySender(UserRequestParams userRequestParams) {
         MutableLiveData<List<Transaction>> data = new MutableLiveData<>();
-        apiService.getTransactionsBySender(senderName).enqueue(new Callback<List<Transaction>>() {
+        apiService.getTransactionsBySender(userRequestParams.username).enqueue(new Callback<List<Transaction>>() {
             @Override
-            public void onResponse(Call<List<Transaction>> call, Response<List<Transaction>> response) {
+            public void onResponse(@NonNull Call<List<Transaction>> call, @NonNull Response<List<Transaction>> response) {
                 data.postValue(response.body());
             }
 
             @Override
-            public void onFailure(Call<List<Transaction>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Transaction>> call, @NonNull Throwable t) {
                 data.postValue(null);
                 t.printStackTrace();
             }
@@ -188,16 +186,16 @@ public class ApiRepository {
         return data;
     }
 
-    public LiveData<List<Transaction>> getTransactionsByReceiver(String receiverName) {
+    public LiveData<List<Transaction>> getTransactionsByReceiver(UserRequestParams userRequestParams) {
         MutableLiveData<List<Transaction>> data = new MutableLiveData<>();
-        apiService.getTransactionsByReceiver(receiverName).enqueue(new Callback<List<Transaction>>() {
+        apiService.getTransactionsByReceiver(userRequestParams.username).enqueue(new Callback<List<Transaction>>() {
             @Override
-            public void onResponse(Call<List<Transaction>> call, Response<List<Transaction>> response) {
+            public void onResponse(@NonNull Call<List<Transaction>> call, @NonNull Response<List<Transaction>> response) {
                 data.postValue(response.body());
             }
 
             @Override
-            public void onFailure(Call<List<Transaction>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Transaction>> call, @NonNull Throwable t) {
                 data.postValue(null);
                 t.printStackTrace();
             }

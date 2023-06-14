@@ -6,6 +6,7 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,15 +16,21 @@ import com.aproteam.ioucash.R;
 import com.aproteam.ioucash.adapter.TransactionsAdapter;
 import com.aproteam.ioucash.databinding.ActivityMainBinding;
 import com.aproteam.ioucash.model.Transaction;
+import com.aproteam.ioucash.model.User;
 import com.aproteam.ioucash.viewmodel.MainViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends BaseActivity implements MainViewModel.MainModelCallback {
 
 	ActivityMainBinding binding;
 	TransactionsAdapter transactionsAdapter;
+	User user;
 
 	@Override
 	public void createUI() {
+		user = getSessionManager().readUserData();
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 		MainViewModel mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
 		mainViewModel.setActivity(this);
@@ -47,12 +54,22 @@ public class MainActivity extends BaseActivity implements MainViewModel.MainMode
 		});
 		itemTouchHelper.attachToRecyclerView(binding.transactionList);
 
-		mainViewModel.getTransations().observe(this, userArrayList -> {
+		Observer<List<Transaction>> transactionsObserver = userArrayList -> {
 			if (userArrayList == null)
 				App.toast(R.string.errorUnknown);
-			else
-				transactionsAdapter.updateData(userArrayList);
-		});
+			else {
+				ArrayList<Transaction> transactions = new ArrayList<>();
+				List<Transaction> transationsBySender = mainViewModel.getTransactionsBySender().getValue();
+				List<Transaction> transationsByReceiver = mainViewModel.getTransactionsByReceiver().getValue();
+				if (transationsBySender != null)
+					transactions.addAll(transationsBySender);
+				if (transationsByReceiver != null)
+					transactions.addAll(transationsByReceiver);
+				transactionsAdapter.updateData(transactions);
+			}
+		};
+		mainViewModel.getTransactionsBySender().observe(this, transactionsObserver);
+		mainViewModel.getTransactionsBySender().observe(this, transactionsObserver);
 		mainViewModel.onRefresh();
 	}
 

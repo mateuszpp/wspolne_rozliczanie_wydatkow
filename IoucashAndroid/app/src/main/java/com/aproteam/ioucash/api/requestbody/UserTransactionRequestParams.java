@@ -6,12 +6,9 @@ public class UserTransactionRequestParams {
     public String receiver;
     public double amount;
 
-    public String token;
-
-    public UserTransactionRequestParams(String sender, String receiver, double amount, String token) {
+    public UserTransactionRequestParams(String sender, String receiver, double amount) {
         this.sender = sender;
         this.receiver = receiver;
         this.amount = amount;
-        this.token = token;
     }
 }
