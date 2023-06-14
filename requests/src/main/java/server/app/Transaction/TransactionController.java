@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import server.app.Result;
 import server.app.Users.Users;
 import server.app.Users.UsersRepository;
 import server.app.requests.UserTransactionRequest;
@@ -82,13 +83,13 @@ public class TransactionController {
      * @return message whether record saved successful or request was invalid
      */
     @PostMapping("/addTransaction")
-    public ResponseEntity<String> addTransaction(@RequestBody UserTransactionRequest utRequest,
+    public ResponseEntity<Result> addTransaction(@RequestBody UserTransactionRequest utRequest,
                                                  @RequestHeader(value="token") String token){
         Users sender = usersRepository.findByName(utRequest.sender);
         Users receiver = usersRepository.findByName(utRequest.receiver);
         BigDecimal amount = new BigDecimal(utRequest.amount);
         if(!sender.getToken().equals(token) && !receiver.getToken().equals(token))
-            return new ResponseEntity<>("Invalid request", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Result("Invalid request"), HttpStatus.BAD_REQUEST);
         if(validateUserInput(utRequest.receiver)){
             Transaction transaction = new Transaction(sender,receiver,amount, LocalDate.now());
             transactionrepository.save(transaction);
@@ -109,9 +110,9 @@ public class TransactionController {
             }catch (IOException e){
                 e.printStackTrace();
             }
-        return new ResponseEntity<>("Record saved successfully", HttpStatus.CREATED);
+        return new ResponseEntity<>(new Result(), HttpStatus.CREATED);
         }
-        else return new ResponseEntity<>("Invalid request", HttpStatus.BAD_REQUEST);
+        else return new ResponseEntity<>(new Result("Invalid request"), HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping("/removeTransaction/{sender}/{receiver}")
