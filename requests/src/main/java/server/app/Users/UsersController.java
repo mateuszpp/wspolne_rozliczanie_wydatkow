@@ -60,8 +60,9 @@ public class UsersController {
      * @param urRequest  request with certain users
      */
     @PostMapping("/users/remove/{name}")
-    ResponseEntity<String> removeUser(@RequestBody getUserRequest urRequest){
-        usersRepository.delete(Objects.requireNonNull(userByName(urRequest.token,urRequest.username).getBody()));
+    ResponseEntity<String> removeUser(@RequestBody getUserRequest urRequest,
+                                      @RequestHeader(value="token") String token){
+        usersRepository.delete(Objects.requireNonNull(userByName(token,urRequest.username).getBody()));
         ObjectMapper objectMapper = new ObjectMapper();
         List<Users> users;
         users = usersRepository.findAll();
@@ -126,11 +127,12 @@ public class UsersController {
      * @throws NoSuchAlgorithmException
      */
     @PatchMapping("/users/changePassword")
-    ResponseEntity<Users> changePassword(@RequestBody changePasswordRequest cPRequest) throws NoSuchAlgorithmException{
+    ResponseEntity<Users> changePassword(@RequestBody changePasswordRequest cPRequest,
+                                         @RequestHeader(value="token") String token) throws NoSuchAlgorithmException{
         Users user;
         if(validateUserInput(cPRequest.username) && validateUserInput(cPRequest.currentPassword) && validateUserInput(cPRequest.newPassword)){
             user = usersRepository.Login(cPRequest.username, Users.hashPassword(cPRequest.currentPassword));
-            if(user.getToken().equals(cPRequest.token))
+            if(user.getToken().equals(token))
             {
                 usersRepository.getReferenceById(user.getId()).setHashedPasswd(cPRequest.newPassword);
                 usersRepository.save(user);

@@ -47,7 +47,7 @@ public class TransactionController {
         }
         List<Transaction> result = new ArrayList<>();
         for(Transaction x : transactionrepository.findAll()){
-            if(x.getSender() == sendingUser){
+            if(x.getSender().equals(sendingUser)){
                 result.add(x);
             }
         }
@@ -68,7 +68,7 @@ public class TransactionController {
         }
         List<Transaction> result = new ArrayList<>();
         for(Transaction x : transactionrepository.findAll()){
-            if(x.getReceiver() == receivingUser){
+            if(x.getReceiver().equals(receivingUser)){
                 result.add(x);
             }
         }
@@ -78,15 +78,16 @@ public class TransactionController {
     /**
      *method responsible for adding new transaction to the transactiongraph, automatically the balance of all users and list of transactions is
      * being simplified, data is also serialised during the process into 2 files : transactionBackup and usersBackup in json format
-     * @param utRequest request body of UserTransactionRequest, needed String sender, String receiver, double amount, String token
+     * @param utRequest request body of UserTransactionRequest, needed String sender, String receiver, double amount
      * @return message whether record saved successful or request was invalid
      */
     @PostMapping("/addTransaction")
-    public ResponseEntity<String> addTransaction(@RequestBody UserTransactionRequest utRequest){
+    public ResponseEntity<String> addTransaction(@RequestBody UserTransactionRequest utRequest,
+                                                 @RequestHeader(value="token") String token){
         Users sender = usersRepository.findByName(utRequest.sender);
         Users receiver = usersRepository.findByName(utRequest.receiver);
         BigDecimal amount = new BigDecimal(utRequest.amount);
-        if(!sender.getToken().equals(utRequest.token) && !receiver.getToken().equals(utRequest.token))
+        if(!sender.getToken().equals(token) && !receiver.getToken().equals(token))
             return new ResponseEntity<>("Invalid request", HttpStatus.BAD_REQUEST);
         if(validateUserInput(utRequest.receiver)){
             Transaction transaction = new Transaction(sender,receiver,amount, LocalDate.now());
