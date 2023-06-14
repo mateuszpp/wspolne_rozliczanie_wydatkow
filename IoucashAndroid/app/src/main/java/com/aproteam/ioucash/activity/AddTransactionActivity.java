@@ -12,11 +12,19 @@ import com.aproteam.ioucash.model.Transaction;
 import com.aproteam.ioucash.model.User;
 import com.aproteam.ioucash.viewmodel.AddTransactionViewModel;
 
+/**
+ * A class responsible for adding new transaction.
+ * It allows to enter transaction details and save them.
+ */
 public class AddTransactionActivity extends BaseActivity implements AddTransactionViewModel.AddTransactionListener {
 
 	private ActivityAddTransactionBinding binding;
 	private AddTransactionViewModel viewModel;
 
+	/**
+	 * Creates the user interface of the activity.
+	 * It sets up data binding, view model and event listeners.
+	 */
 	@Override
 	public void createUI() {
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_add_transaction);
@@ -36,6 +44,9 @@ public class AddTransactionActivity extends BaseActivity implements AddTransacti
 		setupAutoCompletion();
 	}
 
+	/**
+	 * Sets up the auto-completion for the sender and receiver.
+	 */
 	public void setupAutoCompletion() {
 		viewModel.loadUsers();
 		viewModel.users.observe(this, users -> {
