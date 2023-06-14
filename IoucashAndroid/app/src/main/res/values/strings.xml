@@ -23,7 +23,7 @@
 	<string name="transactionNotRemoved">Error occurred while removing the transaction!</string>
 
 	<string name="transactionTitle">%s</string>
-	<string name="transactionAmount">%.2f$</string>
+	<string name="transactionAmount">%s%.2f$</string>
 
 	<string name="settings">Settings</string>
 	<string name="version">App version</string>

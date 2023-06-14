@@ -29,4 +29,11 @@ public class Transaction {
 		return receiver.username;
 	}
 
+	public String onPlus() {
+		SessionManager sessionManager = SessionManager.getInstance(App.get());
+		User current = sessionManager.readUserData();
+		if(current.username.equals(receiver.username)) return "+";
+		return "-";
+	}
+
 }

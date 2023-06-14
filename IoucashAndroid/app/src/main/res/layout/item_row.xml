@@ -29,14 +29,14 @@
 				android:id="@+id/transactionTitle"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="@{model.getOtherName()}"
+				android:text="@{@string/transactionTitle(model.getOtherName())}"
 				android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
 
 			<TextView
 				android:id="@+id/transactionSubtitle"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="@{@string/transactionAmount(model.amount)}"
+				android:text="@{@string/transactionAmount(model.onPlus,model.amount)}"
 				android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
 
 		</LinearLayout>

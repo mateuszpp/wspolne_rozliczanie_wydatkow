@@ -29,7 +29,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 
 /**
- * An abstract class that serves as the base for other activities in the application.
+ * An abstract class that is the base for other activities.
  * It provides common functionality and basic methods.
  */
 public abstract class BaseActivity extends AppCompatActivity {

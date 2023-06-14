@@ -19,6 +19,9 @@ import com.aproteam.ioucash.viewmodel.CardClickListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class responsible for displaying a list of transactions in RecyclerView.
+ */
 @SuppressLint("NotifyDataSetChanged")
 public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapter.ViewHolder> implements CardClickListener {
 
