@@ -27,12 +27,11 @@ import com.aproteam.ioucash.SessionManager;
 import com.aproteam.ioucash.model.User;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+
 /**
-
- An abstract class that serves as the base for other activities in the application,
- provides common functionality and basic methods.
+ * An abstract class that serves as the base for other activities in the application.
+ * It provides common functionality and basic methods.
  */
-
 public abstract class BaseActivity extends AppCompatActivity {
 
 	public ComponentName parentActivity;
@@ -71,9 +70,16 @@ public abstract class BaseActivity extends AppCompatActivity {
 			actionBar.setDisplayHomeAsUpEnabled(true);
 		animateLayoutChanges(findViewById(R.id.root));
 	}
-
+	/**
+	 * An abstract method to be implemented by subclasses to create the user interface of the activity.
+	 */
 	public abstract void createUI();
 
+	/**
+	 * An abstract method to be implemented by subclasses to point out if the back button should be displayed.
+	 *
+	 * @return true if the back button should be displayed, false if not
+	 */
 	public abstract boolean shouldShowBackButton();
 
 	/**
@@ -132,11 +138,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 	private Runnable afterPermissionRequestRunnable;
 
 	/**
-	 * Checks if the specified permission is granted and if yes,
-	 * it executes provided runnable, but if not it requests the permission.
+	 * Checks if the specified permission is granted and if yes, it executes provided runnable, but if not it requests the permission.
 	 *
 	 * @param permission permission to check/request
-	 * @param runnable The runnable to execute when there is a permission
+	 * @param runnable the runnable to execute when there is a permission
 	 */
 	public void checkAppPermissionAndRun(String permission, Runnable runnable) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {

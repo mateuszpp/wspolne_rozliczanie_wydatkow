@@ -24,12 +24,21 @@ import com.aproteam.ioucash.viewmodel.MainViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class representing the main screen activity.
+ * It is responsible for displaying a list of transactions, providing options for adding transactions, settings, logging out.
+ */
 public class MainActivity extends BaseActivity implements MainViewModel.MainModelCallback {
 
 	ActivityMainBinding binding;
 	TransactionsAdapter transactionsAdapter;
 	MainViewModel mainViewModel;
 
+	/**
+	 * Creates the user interface of the activity.
+	 * Sets up data binding, view model and event listeners.
+	 * Initializes the transaction list.
+	 */
 	@Override
 	public void createUI() {
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
@@ -42,6 +51,9 @@ public class MainActivity extends BaseActivity implements MainViewModel.MainMode
 		setupList();
 	}
 
+	/**
+	 * Sets up the transaction list and deleting functionality.
+	 */
 	public void setupList() {
 		transactionsAdapter = new TransactionsAdapter(this);
 		binding.transactionList.setAdapter(transactionsAdapter);

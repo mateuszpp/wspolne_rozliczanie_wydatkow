@@ -11,10 +11,19 @@ import com.aproteam.ioucash.databinding.ActivityLoginBinding;
 import com.aproteam.ioucash.model.User;
 import com.aproteam.ioucash.viewmodel.LoginViewModel;
 
+/**
+ * A class responsible for user login functionality, it allows user to log in.
+ * After the successful login redirects the user to the main activity.
+ */
 public class LoginActivity extends BaseActivity implements LoginViewModel.LoginListener {
 
 	ActivityLoginBinding binding;
 
+	/**
+	 * Creates the user interface of the activity.
+	 * If the user is already logged in, redirects him to the main activity.
+	 * If not, it sets up data binding, view model and event listeners.
+	 */
 	@Override
 	public void createUI() {
 		if (getSessionManager().isLoggedIn()) {
