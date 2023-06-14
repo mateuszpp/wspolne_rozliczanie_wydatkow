@@ -24,6 +24,7 @@ import com.aproteam.ioucash.App;
 import com.aproteam.ioucash.Prefs;
 import com.aproteam.ioucash.R;
 import com.aproteam.ioucash.SessionManager;
+import com.aproteam.ioucash.model.User;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 
@@ -42,11 +43,13 @@ public abstract class BaseActivity extends AppCompatActivity {
 	};
 	RequestManager glide;
 	private SessionManager sessionManager;
+	private User user;
 
 	@Override
 	public final void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		sessionManager = SessionManager.getInstance(this);
+		user = getSessionManager().readUserData();
 		parentActivity = getCallingActivity();
 		lastAppTheme = Prefs.getThemePref(this);
 		sp = Prefs.get();
@@ -151,5 +154,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 	public SessionManager getSessionManager() {
 		return sessionManager;
+	}
+
+	public User getUser() {
+		return user;
 	}
 }

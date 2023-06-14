@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.aproteam.ioucash.activity.BaseActivity;
 import com.aproteam.ioucash.api.ApiRepository;
-import com.aproteam.ioucash.api.requestbody.RemoveTransactionParams;
+import com.aproteam.ioucash.api.requestbody.UserRequestParams;
 import com.aproteam.ioucash.model.Transaction;
 
 import java.util.List;
@@ -20,12 +20,12 @@ public class MainViewModel extends ViewModel {
 	private BaseActivity activity;
 	private MainModelCallback callback;
 
-	public MutableLiveData<List<Transaction>> transactionsData;
+	public MutableLiveData<List<Transaction>> transactionsDataBySender = new MutableLiveData<>();
+	public MutableLiveData<List<Transaction>> transactionsDataByReceiver = new MutableLiveData<>();
 	public MutableLiveData<Boolean> busy = new MutableLiveData<>(false);
 
 	public MainViewModel() {
 		repository = new ApiRepository();
-		transactionsData = new MutableLiveData<>();
 	}
 
 	public void setActivity(BaseActivity activity) {
@@ -34,26 +34,37 @@ public class MainViewModel extends ViewModel {
 
 	public void onRefresh() {
 		busy.setValue(true);
-		repository.getTransactions().observe(activity, transactions -> {
+		UserRequestParams params = new UserRequestParams(activity.getUser());
+		repository.getTransactionsByReceiver(params).observe(activity, transactions -> {
+			if (transactions != null)
+				transactionsDataByReceiver.postValue(transactions);
 			busy.setValue(false);
-			transactionsData.postValue(transactions);
 		});
+		repository.getTransactionsBySender(params).observe(activity, transactions -> {
+			if (transactions != null)
+				transactionsDataBySender.postValue(transactions);
+			busy.setValue(false);
+		});
+	}
+
+	public MutableLiveData<List<Transaction>> getTransactionsBySender() {
+		return transactionsDataBySender;
 	}
 
 	public void removeTransaction(Transaction transaction) {
 		busy.setValue(true);
-		repository.removeTransaction(new RemoveTransactionParams(
-				transaction.sender.username,
-				transaction.receiver.username,
-				activity.getSessionManager().readUserData().token)
-		).observe(activity, removedTransaction -> {
+		repository.removeTransaction(transaction).observe(activity, removedTransaction -> {
 			busy.setValue(false);
 			onRefresh();
 		});
 	}
 
 	public MutableLiveData<List<Transaction>> getTransations() {
-		return transactionsData;
+		return transactionsDataBySender;
+	}
+
+	public MutableLiveData<List<Transaction>> getTransactionsByReceiver() {
+		return transactionsDataByReceiver;
 	}
 
 	public MutableLiveData<Boolean> getBusy() {

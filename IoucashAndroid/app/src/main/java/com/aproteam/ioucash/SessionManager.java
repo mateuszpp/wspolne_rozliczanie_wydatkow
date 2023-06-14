@@ -13,7 +13,7 @@ import java.io.FileWriter;
 import java.nio.charset.StandardCharsets;
 
 /**
- * Class for manageing logged in user session data.
+ * Class for managing logged in user session data.
  */
 @SuppressLint("StaticFieldLeak")
 public class SessionManager {
@@ -28,7 +28,7 @@ public class SessionManager {
 	/**
 	 * Gets an instance of the SessionManager
 	 *
-	 * @param context the cotnext of the app
+	 * @param context the current context
 	 * @return the SessionManager object
 	 */
 	public static SessionManager getInstance(Context context) {
@@ -73,4 +73,7 @@ public class SessionManager {
 		return new File(context.getFilesDir(), "userdata.json");
 	}
 
+	public Context getContext() {
+		return context;
+	}
 }

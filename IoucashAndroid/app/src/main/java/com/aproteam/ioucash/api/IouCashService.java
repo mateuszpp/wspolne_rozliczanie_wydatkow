@@ -3,7 +3,9 @@ package com.aproteam.ioucash.api;
 import com.aproteam.ioucash.api.requestbody.ChangeUserPasswordParams;
 import com.aproteam.ioucash.api.requestbody.RemoveTransactionParams;
 import com.aproteam.ioucash.api.requestbody.UserAuthorizationParams;
+import com.aproteam.ioucash.api.requestbody.UserRequestParams;
 import com.aproteam.ioucash.api.requestbody.UserTransactionRequestParams;
+import com.aproteam.ioucash.model.Result;
 import com.aproteam.ioucash.model.Transaction;
 import com.aproteam.ioucash.model.User;
 
@@ -13,11 +15,14 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
-import retrofit2.http.HTTP;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface IouCashService {
+
+	@GET("/users")
+	Call<List<User>> getUsers();
 
 	@POST("/users/remove/{name}")
 	Call<Object> removeUser(@Path("name") String username);
@@ -34,11 +39,11 @@ public interface IouCashService {
 	@GET("/Transaction")
 	Call<List<Transaction>> getTransactions();
 
-	@HTTP(method = "DELETE", path = "/removeTransaction", hasBody = true)
-	Call<Transaction> removeTransaction(@Body RemoveTransactionParams removeTransactionParams);
+	@DELETE("/removeTransaction/{sender}/{receiver}")
+	Call<Transaction> removeTransaction(@Path ("sender") String sender, @Path ("receiver") String receiver);
 
 	@POST("/addTransaction")
-	Call<Object> addTransaction(@Body UserTransactionRequestParams userTransactionRequestParams);
+	Call<Result> addTransaction(@Body UserTransactionRequestParams userTransactionRequestParams);
 
 	@GET("Transaction/bySender/{sender}")
 	Call<List<Transaction>> getTransactionsBySender(@Path ("sender") String senderName);

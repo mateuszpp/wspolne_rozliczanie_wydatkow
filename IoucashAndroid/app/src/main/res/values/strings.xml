@@ -12,6 +12,13 @@
 	<string name="errorPermission">Please grant permission to use this funcionality</string>
 	<string name="errorUserPasswordIncorrect">Either username or password is incorrect</string>
 	<string name="errorUnknown">An error occurred</string>
+	<string name="errorUsernameIncorrect">Please ensure the username is incorrect</string>
+
+	<string name="addTransactionTitle">Add new transaction</string>
+	<string name="from">From</string>
+	<string name="to">To</string>
+	<string name="amount">Amount</string>
+	<string name="addTransaction">Add transaction</string>
 
 	<string name="transactionTitle">%s -> %s</string>
 	<string name="transactionAmount">%.2f$</string>
