@@ -58,7 +58,7 @@ public class MainViewModel extends ViewModel {
 	}
 
 	/**
-	 * Removes a transaction by making an API call and updates the list of transactions.
+	 * Removes a transaction by making an API call of reverse transaction (because of server problems) and updates the list of transactions.
 	 * @param transaction the transaction to be removed.
 	 */
 	public void removeTransaction(Transaction transaction) {
