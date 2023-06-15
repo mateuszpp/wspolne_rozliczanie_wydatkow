@@ -12,10 +12,21 @@ public class Prefs {
 
 	public static final String APP_THEME = "APP_THEME";
 
+	/**
+	 * Retrieves the default SharedPreferences instance.
+	 *
+	 * @return default SharedPreferences instance
+	 */
 	public static SharedPreferences get() {
 		return PreferenceManager.getDefaultSharedPreferences(App.get());
 	}
 
+	/**
+	 * Retrieves the theme preference value.
+	 *
+	 * @param context the context
+	 * @return theme preference value
+	 */
 	public static int getThemePref(Context context) {
 		return Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString(APP_THEME, "0"));
 	}
@@ -28,6 +39,12 @@ public class Prefs {
 			return app_theme == 2 || app_theme == 3;
 	}
 
+	/**
+	 * Retrieves the theme value based on the app theme preference.
+	 *
+	 * @param context the context
+	 * @return theme value
+	 */
 	static int getTheme(Context context) {
 		int app_theme = getThemePref(context);
 		if (app_theme == 0)
@@ -38,10 +55,22 @@ public class Prefs {
 			return AppCompatDelegate.MODE_NIGHT_YES;
 	}
 
+	/**
+	 * Checks if the system is in dark mode.
+	 *
+	 * @param context the context
+	 * @return true if the system is in dark mode, false if not
+	 */
 	static boolean isDarkSystem(Context context) {
 		return (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
 	}
 
+	/**
+	 * Sets up theme for the app based on the theme preference.
+	 *
+	 * @param context actual context
+	 * @return updated context
+	 */
 	public static Context setupTheme(Context context) {
 		Resources res = context.getResources();
 		Configuration config = new Configuration(res.getConfiguration());

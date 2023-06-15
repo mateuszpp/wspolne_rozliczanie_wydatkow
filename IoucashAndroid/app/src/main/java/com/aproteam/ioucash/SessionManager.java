@@ -41,10 +41,20 @@ public class SessionManager {
 		return readUserData() != null;
 	}
 
+	/**
+	 * Logs out the current user.
+	 *
+	 * @return true if the logout was successful, false if not
+	 */
 	public boolean logout() {
 		return saveUserData(null);
 	}
 
+	/**
+	 * Reads the user data from the session.
+	 *
+	 * @return User object containing the user data, or null if user data is not available or there is an error
+	 */
 	public User readUserData() {
 		try {
 			String json = FileUtils.readFileToString(getLocalSessionDataFile(), StandardCharsets.UTF_8);
@@ -55,6 +65,12 @@ public class SessionManager {
 		}
 	}
 
+	/**
+	 * Saves the user data to the session.
+	 *
+	 * @param user User object containing the user data to be saved
+	 * @return true if the user data was saved successfully, false if not
+	 */
 	public boolean saveUserData(User user) {
 		String json = new Gson().toJson(user);
 		try (FileWriter fileWriter = new FileWriter(getLocalSessionDataFile())) {

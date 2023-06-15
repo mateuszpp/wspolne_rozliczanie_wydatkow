@@ -16,6 +16,9 @@ import com.aproteam.ioucash.model.User;
 
 import java.util.List;
 
+/**
+ * ViewModel for adding a transaction.
+ */
 @SuppressLint("StaticFieldLeak")
 public class AddTransactionViewModel extends ViewModel {
 
@@ -46,6 +49,9 @@ public class AddTransactionViewModel extends ViewModel {
 		this.addTransactionListener = addTransactionListener;
 	}
 
+	/**
+	 * Loads the list of users.
+	 */
 	public void loadUsers() {
 		busy.setValue(View.VISIBLE);
 		repository.getUsers().observe(activity, users -> {
@@ -56,6 +62,10 @@ public class AddTransactionViewModel extends ViewModel {
 	}
 
 	/** @noinspection DataFlowIssue*/
+	/**
+	 * Called when the reverse order button is clicked.
+	 * Reverses the sender and receiver names and updates the direction.
+	 */
 	public void onReverseOrderClicked() {
 		String sender = senderName.getValue();
 		String receiver = receiverName.getValue();
@@ -65,6 +75,10 @@ public class AddTransactionViewModel extends ViewModel {
 	}
 
 	/** @noinspection DataFlowIssue*/
+	/**
+	 * Called when the reverse order button is clicked.
+	 * Reverses the sender and receiver names and updates the direction.
+	 */
 	public void onAddTransactionClicked() {
 		if (checkIfFieldsEmpty())
 			return;
@@ -85,6 +99,11 @@ public class AddTransactionViewModel extends ViewModel {
 		});
 	}
 
+	/**
+	 * Checks if the sender and receiver fields are empty.
+	 *
+	 * @return true if any of the fields is empty, false if not
+	 */
 	public boolean checkIfFieldsEmpty() {
 		boolean empty = false;
 		if (senderName.getValue() == null || senderName.getValue().isEmpty()) {

@@ -36,7 +36,7 @@ public class Transaction {
 	}
 
 	/**
-	 * Gets username of the other party involved in the transaction (opposite of the current user).
+	 * Gets username of the other party involved in the transaction.
 	 *
 	 * @return The username of the other party, or null if the current user or the other party is null.
 	 */

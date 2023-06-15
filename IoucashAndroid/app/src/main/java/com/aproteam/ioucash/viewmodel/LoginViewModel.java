@@ -50,6 +50,10 @@ public class LoginViewModel extends ViewModel {
 		this.loginListener = loginListener;
 	}
 
+	/**
+	 * Handles the click event when the login button is clicked.
+	 * If the fields are not empty, it initiates the login process.
+	 */
 	public void onLoginClicked() {
 		if (checkIfFieldsEmpty())
 			return;
@@ -57,6 +61,10 @@ public class LoginViewModel extends ViewModel {
 		repository.login(email.getValue(), password.getValue()).observe(loginActivity, userObserver);
 	}
 
+	/**
+	 * Handles the click event when the register button is clicked.
+	 * If the fields are not empty, it initiates the registration process.
+	 */
 	public void onRegisterClicked() {
 		if (checkIfFieldsEmpty())
 			return;
@@ -64,6 +72,11 @@ public class LoginViewModel extends ViewModel {
 		repository.register(email.getValue(), password.getValue()).observe(loginActivity, userObserver);
 	}
 
+	/**
+	 * Checks if the email and password fields are not empty.
+	 * If any of the fields are empty, it sets the corresponding error message.
+	 * @return true if any of the fields are empty, false if not
+	 */
 	public boolean checkIfFieldsEmpty() {
 		boolean empty = false;
 		if (email.getValue() == null || email.getValue().isEmpty()) {
@@ -81,6 +94,11 @@ public class LoginViewModel extends ViewModel {
 		return empty;
 	}
 
+	/**
+	 * Gets the MutableLiveData object in the busy state.
+	 * If the object is not initialized, it initializes it with the initial value of View.GONE.
+	 * @return the MutableLiveData object for the busy state
+	 */
 	public MutableLiveData<Integer> getBusy() {
 		if (busy == null) {
 			busy = new MutableLiveData<>();

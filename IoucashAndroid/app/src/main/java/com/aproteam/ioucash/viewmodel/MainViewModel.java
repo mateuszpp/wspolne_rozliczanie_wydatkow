@@ -32,6 +32,9 @@ public class MainViewModel extends ViewModel {
 		this.activity = activity;
 	}
 
+	/**
+	 * Refreshes the list of transactions by making API calls to retrieve transactions by sender and receiver
+	 */
 	public void onRefresh() {
 		busy.setValue(true);
 		UserRequestParams params = new UserRequestParams(activity.getUser());
@@ -51,6 +54,10 @@ public class MainViewModel extends ViewModel {
 		return transactionsDataBySender;
 	}
 
+	/**
+	 * Removes a transaction by making an API call and updates the list of transactions.
+	 * @param transaction the transaction to be removed.
+	 */
 	public void removeTransaction(Transaction transaction) {
 		busy.setValue(true);
 		repository.removeTransaction(transaction).observe(activity, removedTransaction -> {
