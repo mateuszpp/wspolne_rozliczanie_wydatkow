@@ -17,7 +17,7 @@
 
 	<string name="noTransactions">You are settled up!</string>
 	<string name="addTransactionTitle">Add new transaction</string>
-	<string name="payedBy">Payed by</string>
+	<string name="payedBy">Paid by</string>
 	<string name="forWho">For</string>
 	<string name="amount">Amount</string>
 	<string name="addTransaction">Add transaction</string>
