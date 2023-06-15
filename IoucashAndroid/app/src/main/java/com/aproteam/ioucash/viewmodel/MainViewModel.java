@@ -1,13 +1,16 @@
 package com.aproteam.ioucash.viewmodel;
 
 import android.annotation.SuppressLint;
+import android.view.View;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.aproteam.ioucash.R;
 import com.aproteam.ioucash.activity.BaseActivity;
 import com.aproteam.ioucash.api.ApiRepository;
 import com.aproteam.ioucash.api.requestbody.UserRequestParams;
+import com.aproteam.ioucash.api.requestbody.UserTransactionRequestParams;
 import com.aproteam.ioucash.model.Transaction;
 
 import java.util.List;
@@ -60,7 +63,11 @@ public class MainViewModel extends ViewModel {
 	 */
 	public void removeTransaction(Transaction transaction) {
 		busy.setValue(true);
-		repository.removeTransaction(transaction).observe(activity, removedTransaction -> {
+		Transaction payBackTransaction = new Transaction();
+		payBackTransaction.amount=transaction.amount;
+		payBackTransaction.sender=transaction.receiver;
+		payBackTransaction.receiver=transaction.sender;
+		repository.addTransaction(new UserTransactionRequestParams(transaction)).observe(activity, removedTransaction -> {
 			if (callback != null) {
 				if (removedTransaction != null)
 					callback.onTransactionRemoved();
