@@ -52,8 +52,8 @@ public class MainViewModel extends ViewModel {
 		repository.getTransactionsBySender(params).observe(activity, transactions -> {
 			if (transactions != null) {
 				transactionsDataBySender.postValue(transactions);
-				calculateAccountBalance();
 			}
+			calculateAccountBalance();
 			busy.setValue(false);
 		});
 	}
@@ -80,7 +80,7 @@ public class MainViewModel extends ViewModel {
 		});
 	}
 
-	private void calculateAccountBalance() {
+	public void calculateAccountBalance() {
 		boolean empty = true;
 		double balance = 0;
 		List<Transaction> bySender = transactionsDataBySender.getValue();

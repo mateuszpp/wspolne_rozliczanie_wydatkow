@@ -83,6 +83,7 @@ public class MainActivity extends BaseActivity implements MainViewModel.MainMode
 				if (transationsByReceiver != null)
 					transactions.addAll(transationsByReceiver);
 				transactionsAdapter.updateData(transactions);
+				mainViewModel.calculateAccountBalance();
 			}
 		};
 		mainViewModel.getTransactionsBySender().observe(this, transactionsObserver);
@@ -127,12 +128,13 @@ public class MainActivity extends BaseActivity implements MainViewModel.MainMode
 	@Override
 	public void onTransactionRemoved() {
 		App.toast(R.string.transactionRemoved);
-		new Handler().postDelayed(() -> mainViewModel.onRefresh(), 500);
+		new Handler().postDelayed(() -> mainViewModel.onRefresh(), 1000);
 	}
 
 	@Override
 	public void onTransactionNotRemoved() {
 		App.toast(R.string.transactionNotRemoved);
+		new Handler().postDelayed(() -> mainViewModel.onRefresh(), 1000);
 	}
 
 	@Override

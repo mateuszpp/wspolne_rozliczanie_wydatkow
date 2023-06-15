@@ -1,0 +1,39 @@
+<resources>
+
+	<string name="appName">IouCash</string>
+	<string name="helloText">Witaj, %s!</string>
+	<string name="loginTitle">Zaloguj się</string>
+	<string name="login">Zaloguj</string>
+	<string name="logout">Wyloguj</string>
+	<string name="register">Utwórz konto</string>
+	<string name="username">Nazwa użytkownika</string>
+	<string name="password">Hasło</string>
+	<string name="loginSuccess">Zalogowano pomyślnie!</string>
+	<string name="errorPleaseFillAllFields">Wypełnij wymagane wszystkie pola</string>
+	<string name="errorPermission">Zazwól na uprawnienia  aby korzystać z aplikacji</string>
+	<string name="errorUserPasswordIncorrect">Nazwa użytkownika lub hasło są niepoprawne</string>
+	<string name="errorUnknown">Wystąpił błąd</string>
+	<string name="errorUsernameIncorrect">Upewnij się że nazwa użytkownika jest prawidłowa</string>
+
+	<string name="noTransactions">Nie masz jeszcze żadnych transakcji.</string>
+	<string name="addTransactionTitle">Dodaj transakcję</string>
+	<string name="payedBy">Zapłacił(a)</string>
+	<string name="forWho">Dla</string>
+	<string name="amount">Kwota</string>
+	<string name="addTransaction">Dodaj transakcję</string>
+	<string name="transactionRemoved">Transakcja usunięta!</string>
+	<string name="transactionNotRemoved">Wystąpił błąd podczas usuwania transakcji!</string>
+
+	<string name="transactionTitle">%s</string>
+	<string name="transactionAmount">%s%.2f$</string>
+
+	<string name="settings">Ustawienia</string>
+	<string name="version">Wersja aplikacji</string>
+	<string name="appTheme">Motyw</string>
+	<string name="appThemeDefault">Domyślny systemu</string>
+	<string name="appThemeLight">Jasny</string>
+	<string name="appThemeDark">Ciemny</string>
+	<string name="settingsGroupInfo">Informacje</string>
+	<string name="settingsGroupGeneral">Ogólne</string>
+
+</resources>
