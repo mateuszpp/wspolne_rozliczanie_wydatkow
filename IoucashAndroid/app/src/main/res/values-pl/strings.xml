@@ -15,7 +15,7 @@
 	<string name="errorUnknown">Wystąpił błąd</string>
 	<string name="errorUsernameIncorrect">Upewnij się że nazwa użytkownika jest prawidłowa</string>
 
-	<string name="noTransactions">Nie masz jeszcze żadnych transakcji.</string>
+	<string name="noTransactions">Jesteś na czysto!</string>
 	<string name="addTransactionTitle">Dodaj transakcję</string>
 	<string name="payedBy">Zapłacił(a)</string>
 	<string name="forWho">Dla</string>

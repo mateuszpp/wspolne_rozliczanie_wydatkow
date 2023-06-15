@@ -15,7 +15,7 @@
 	<string name="errorUnknown">An error occurred</string>
 	<string name="errorUsernameIncorrect">Please ensure the username is incorrect</string>
 
-	<string name="noTransactions">You don\'t have any transactions.</string>
+	<string name="noTransactions">You are settled up!</string>
 	<string name="addTransactionTitle">Add new transaction</string>
 	<string name="payedBy">Payed by</string>
 	<string name="forWho">For</string>
