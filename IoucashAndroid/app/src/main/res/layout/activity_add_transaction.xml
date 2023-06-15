@@ -34,7 +34,7 @@
 					android:id="@+id/senderEditText"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:hint="@string/from"
+					android:hint="@string/payedBy"
 					android:inputType="text"
 					android:padding="8dp"
 					android:text="@={viewModel.senderName}"/>
@@ -62,7 +62,7 @@
 					android:id="@+id/receiverEditText"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:hint="@string/to"
+					android:hint="@string/forWho"
 					android:inputType="text"
 					android:padding="8dp"
 					android:text="@={viewModel.receiverName}"/>

@@ -15,8 +15,8 @@
 	<string name="errorUsernameIncorrect">Please ensure the username is incorrect</string>
 
 	<string name="addTransactionTitle">Add new transaction</string>
-	<string name="from">From</string>
-	<string name="to">To</string>
+	<string name="payedBy">Payed by</string>
+	<string name="forWho">For</string>
 	<string name="amount">Amount</string>
 	<string name="addTransaction">Add transaction</string>
 	<string name="transactionRemoved">Transaction removed!</string>
