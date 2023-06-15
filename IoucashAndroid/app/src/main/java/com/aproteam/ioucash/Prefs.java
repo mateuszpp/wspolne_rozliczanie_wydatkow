@@ -8,6 +8,9 @@ import android.content.res.Resources;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.PreferenceManager;
 
+/**
+ * A class responsible for managing app preferences.
+ */
 public class Prefs {
 
 	public static final String APP_THEME = "APP_THEME";

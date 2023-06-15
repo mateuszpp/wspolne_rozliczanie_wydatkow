@@ -5,6 +5,9 @@ import android.widget.Toast;
 
 import androidx.multidex.MultiDexApplication;
 
+/**
+ * An application class
+ */
 public class App extends MultiDexApplication {
 
 	static App mThis;
