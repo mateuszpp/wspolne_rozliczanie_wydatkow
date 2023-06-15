@@ -7,6 +7,8 @@
 			name="viewModel"
 			type="com.aproteam.ioucash.viewmodel.MainViewModel"/>
 
+		<import type="android.view.View"/>
+
 	</data>
 
 	<RelativeLayout
@@ -14,17 +16,10 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent">
 
-		<Button
-			android:id="@+id/logoutButton"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:onClick="@{()-> viewModel.callback.onLogout()}"
-			android:text="@string/logout"/>
-
 		<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+			android:id="@+id/swipe"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:layout_below="@+id/logoutButton"
 			app:onRefreshListener="@{() -> viewModel.onRefresh()}"
 			app:refreshing="@{viewModel.busy}">
 
@@ -36,6 +31,15 @@
 				app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
 		</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:gravity="center"
+			android:text="@string/noTransactions"
+			android:textColor="?android:attr/textColorPrimary"
+			android:textSize="18sp"
+			android:visibility="@{viewModel.emptyList ? View.VISIBLE : View.GONE}"/>
 
 		<com.google.android.material.floatingactionbutton.FloatingActionButton
 			android:id="@+id/addButton"

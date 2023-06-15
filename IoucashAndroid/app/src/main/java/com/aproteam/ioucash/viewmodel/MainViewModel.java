@@ -25,7 +25,9 @@ public class MainViewModel extends ViewModel {
 
 	public MutableLiveData<List<Transaction>> transactionsDataBySender = new MutableLiveData<>();
 	public MutableLiveData<List<Transaction>> transactionsDataByReceiver = new MutableLiveData<>();
+	public MutableLiveData<Double> accountBalance = new MutableLiveData<>();
 	public MutableLiveData<Boolean> busy = new MutableLiveData<>(false);
+	public MutableLiveData<Boolean> emptyList = new MutableLiveData<>(false);
 
 	public MainViewModel() {
 		repository = new ApiRepository();
@@ -44,47 +46,71 @@ public class MainViewModel extends ViewModel {
 		repository.getTransactionsByReceiver(params).observe(activity, transactions -> {
 			if (transactions != null)
 				transactionsDataByReceiver.postValue(transactions);
+			calculateAccountBalance();
 			busy.setValue(false);
 		});
 		repository.getTransactionsBySender(params).observe(activity, transactions -> {
-			if (transactions != null)
+			if (transactions != null) {
 				transactionsDataBySender.postValue(transactions);
+				calculateAccountBalance();
+			}
 			busy.setValue(false);
 		});
+	}
+
+	/**
+	 * Removes a transaction by making an API call of reverse transaction (because of server problems) and updates the list of transactions.
+	 *
+	 * @param transaction the transaction to be removed.
+	 */
+	public void removeTransaction(Transaction transaction) {
+		busy.setValue(true);
+		Transaction payBackTransaction = new Transaction();
+		payBackTransaction.amount = transaction.amount;
+		payBackTransaction.sender = transaction.receiver;
+		payBackTransaction.receiver = transaction.sender;
+		repository.addTransaction(new UserTransactionRequestParams(transaction)).observe(activity, result -> {
+			if (callback != null) {
+				if (result != null && result.success)
+					callback.onTransactionRemoved();
+				else
+					callback.onTransactionNotRemoved();
+			}
+			busy.setValue(false);
+		});
+	}
+
+	private void calculateAccountBalance() {
+		boolean empty = true;
+		double balance = 0;
+		List<Transaction> bySender = transactionsDataBySender.getValue();
+		if (bySender != null) {
+			for (Transaction transaction : bySender) {
+				empty = false;
+				balance -= transaction.amount;
+			}
+		}
+		List<Transaction> byReceiver = transactionsDataByReceiver.getValue();
+		if (byReceiver != null) {
+			for (Transaction transaction : byReceiver) {
+				empty = false;
+				balance += transaction.amount;
+			}
+		}
+		accountBalance.postValue(balance);
+		emptyList.postValue(empty);
 	}
 
 	public MutableLiveData<List<Transaction>> getTransactionsBySender() {
 		return transactionsDataBySender;
 	}
 
-	/**
-	 * Removes a transaction by making an API call of reverse transaction (because of server problems) and updates the list of transactions.
-	 * @param transaction the transaction to be removed.
-	 */
-	public void removeTransaction(Transaction transaction) {
-		busy.setValue(true);
-		Transaction payBackTransaction = new Transaction();
-		payBackTransaction.amount=transaction.amount;
-		payBackTransaction.sender=transaction.receiver;
-		payBackTransaction.receiver=transaction.sender;
-		repository.addTransaction(new UserTransactionRequestParams(transaction)).observe(activity, removedTransaction -> {
-			if (callback != null) {
-				if (removedTransaction != null)
-					callback.onTransactionRemoved();
-				else
-					callback.onTransactionNotRemoved();
-			}
-			busy.setValue(false);
-			onRefresh();
-		});
-	}
-
-	public MutableLiveData<List<Transaction>> getTransations() {
-		return transactionsDataBySender;
-	}
-
 	public MutableLiveData<List<Transaction>> getTransactionsByReceiver() {
 		return transactionsDataByReceiver;
+	}
+
+	public MutableLiveData<Double> getAccountBalance() {
+		return accountBalance;
 	}
 
 	public MutableLiveData<Boolean> getBusy() {

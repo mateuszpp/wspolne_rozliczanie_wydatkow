@@ -1,10 +1,10 @@
 package com.aproteam.ioucash.activity;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -18,7 +18,6 @@ import com.aproteam.ioucash.R;
 import com.aproteam.ioucash.adapter.TransactionsAdapter;
 import com.aproteam.ioucash.databinding.ActivityMainBinding;
 import com.aproteam.ioucash.model.Transaction;
-import com.aproteam.ioucash.model.User;
 import com.aproteam.ioucash.viewmodel.MainViewModel;
 
 import java.util.ArrayList;
@@ -41,8 +40,7 @@ public class MainActivity extends BaseActivity implements MainViewModel.MainMode
 	 */
 	@Override
 	public void createUI() {
-		String title = getResources().getString(R.string.appName) + " - " +getUser().username;
-		setTitle(title);
+		setTitle(getString(R.string.helloText, getUser().username));
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 		mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
 		mainViewModel.setActivity(this);
@@ -89,7 +87,9 @@ public class MainActivity extends BaseActivity implements MainViewModel.MainMode
 		};
 		mainViewModel.getTransactionsBySender().observe(this, transactionsObserver);
 		mainViewModel.getTransactionsBySender().observe(this, transactionsObserver);
-		mainViewModel.onRefresh();
+		mainViewModel.getAccountBalance().observe(this, accountBalance -> {
+			getSupportActionBar().setSubtitle(getString(R.string.transactionAmount, (accountBalance < 0 ? "" : "+"), accountBalance));
+		});
 	}
 
 	@Override
@@ -102,6 +102,8 @@ public class MainActivity extends BaseActivity implements MainViewModel.MainMode
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.settings)
 			startActivity(new Intent(this, SettingsActivity.class));
+		else if (item.getItemId() == R.id.logout)
+			onLogout();
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -125,11 +127,18 @@ public class MainActivity extends BaseActivity implements MainViewModel.MainMode
 	@Override
 	public void onTransactionRemoved() {
 		App.toast(R.string.transactionRemoved);
+		new Handler().postDelayed(() -> mainViewModel.onRefresh(), 500);
 	}
 
 	@Override
 	public void onTransactionNotRemoved() {
 		App.toast(R.string.transactionNotRemoved);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		mainViewModel.onRefresh();
 	}
 
 	@Override
