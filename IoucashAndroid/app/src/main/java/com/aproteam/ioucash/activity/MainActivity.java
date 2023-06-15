@@ -41,6 +41,8 @@ public class MainActivity extends BaseActivity implements MainViewModel.MainMode
 	 */
 	@Override
 	public void createUI() {
+		String title = getResources().getString(R.string.appName) + " - " +getUser().username;
+		setTitle(title);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 		mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
 		mainViewModel.setActivity(this);

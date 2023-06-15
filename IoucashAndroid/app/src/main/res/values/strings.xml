@@ -1,6 +1,7 @@
 <resources>
 
 	<string name="appName">IouCash</string>
+	<string name="mainHeader">%s - %s</string>
 	<string name="loginTitle">Please login</string>
 	<string name="login">Login</string>
 	<string name="logout">Logout</string>
