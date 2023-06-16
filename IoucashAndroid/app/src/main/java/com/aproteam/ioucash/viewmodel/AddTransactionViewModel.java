@@ -24,6 +24,7 @@ public class AddTransactionViewModel extends ViewModel {
 
 	public MutableLiveData<String> senderError = new MutableLiveData<>();
 	public MutableLiveData<String> receiverError = new MutableLiveData<>();
+	public MutableLiveData<String> amountError = new MutableLiveData<>();
 
 	public MutableLiveData<String> senderName = new MutableLiveData<>();
 	public MutableLiveData<String> receiverName = new MutableLiveData<>();
@@ -117,6 +118,12 @@ public class AddTransactionViewModel extends ViewModel {
 			senderError.setValue(activity.getString(R.string.errorPleaseFillAllFields));
 		} else {
 			senderError.setValue(null);
+		}
+		if (amount.getValue() == null || amount.getValue().isEmpty()) {
+			empty = true;
+			amountError.setValue(activity.getString(R.string.errorPleaseFillAllFields));
+		} else {
+			amountError.setValue(null);
 		}
 		return empty;
 	}

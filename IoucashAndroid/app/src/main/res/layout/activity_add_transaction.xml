@@ -71,7 +71,9 @@
 
 			<com.google.android.material.textfield.TextInputLayout
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
+				android:layout_height="wrap_content"
+				app:error="@{viewModel.amountError}"
+				app:errorEnabled="true">
 
 				<com.google.android.material.textfield.TextInputEditText
 					android:id="@+id/amountEditText"
