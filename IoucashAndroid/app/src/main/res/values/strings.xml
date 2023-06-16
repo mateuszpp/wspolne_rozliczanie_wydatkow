@@ -21,8 +21,8 @@
 	<string name="forWho">For</string>
 	<string name="amount">Amount</string>
 	<string name="addTransaction">Add transaction</string>
-	<string name="transactionRemoved">Transaction removed!</string>
-	<string name="transactionNotRemoved">Error occurred while removing the transaction!</string>
+	<string name="transactionRemoved">Transaction settled up!</string>
+	<string name="transactionNotRemoved">Error occurred while settling the transaction!</string>
 
 	<string name="transactionTitle">%s</string>
 	<string name="transactionAmount">%s%.2f$</string>

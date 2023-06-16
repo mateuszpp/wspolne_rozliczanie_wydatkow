@@ -18,11 +18,11 @@
 	<string name="noTransactions">Jesteś na czysto!</string>
 	<string name="addTransactionTitle">Dodaj transakcję</string>
 	<string name="payedBy">Zapłacił(a)</string>
-	<string name="forWho">Dla</string>
+	<string name="forWho">Za użytkownika</string>
 	<string name="amount">Kwota</string>
 	<string name="addTransaction">Dodaj transakcję</string>
-	<string name="transactionRemoved">Transakcja usunięta!</string>
-	<string name="transactionNotRemoved">Wystąpił błąd podczas usuwania transakcji!</string>
+	<string name="transactionRemoved">Transakcja uregulowana!</string>
+	<string name="transactionNotRemoved">Wystąpił błąd podczas uregulowania transakcji!</string>
 
 	<string name="transactionTitle">%s</string>
 	<string name="transactionAmount">%s%.2f$</string>
