@@ -17,7 +17,8 @@ import com.aproteam.ioucash.model.User;
 import java.util.List;
 
 /**
- * ViewModel for adding a transaction.
+ * ViewModel for adding a transaction view of the application.
+ * Manages the data and logic in adding the transaction view.
  */
 @SuppressLint("StaticFieldLeak")
 public class AddTransactionViewModel extends ViewModel {

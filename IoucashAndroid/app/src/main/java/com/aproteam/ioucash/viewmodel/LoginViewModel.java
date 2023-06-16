@@ -12,6 +12,10 @@ import com.aproteam.ioucash.activity.BaseActivity;
 import com.aproteam.ioucash.api.ApiRepository;
 import com.aproteam.ioucash.model.User;
 
+/**
+ * ViewModel for the login view of the application.
+ * Manages the data and logic in the login view.
+ */
 @SuppressLint("StaticFieldLeak")
 public class LoginViewModel extends ViewModel {
 

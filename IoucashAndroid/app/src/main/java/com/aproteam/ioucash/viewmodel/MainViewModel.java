@@ -15,6 +15,10 @@ import com.aproteam.ioucash.model.Transaction;
 
 import java.util.List;
 
+/**
+ * ViewModel for the main view of the application.
+ * Manages the data and logic in to the main view.
+ */
 @SuppressLint("StaticFieldLeak")
 public class MainViewModel extends ViewModel {
 
@@ -80,6 +84,9 @@ public class MainViewModel extends ViewModel {
 		});
 	}
 
+	/**
+	 * Calculates account balance based on the list of transactions and updates it.
+	 */
 	public void calculateAccountBalance() {
 		boolean empty = true;
 		double balance = 0;
