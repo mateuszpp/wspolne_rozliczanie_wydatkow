@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.aproteam.ioucash"},{"l":"com.aproteam.ioucash.activity"},{"l":"com.aproteam.ioucash.adapter"},{"l":"com.aproteam.ioucash.api"},{"l":"com.aproteam.ioucash.api.requestbody"},{"l":"com.aproteam.ioucash.model"},{"l":"com.aproteam.ioucash.viewmodel"}];updateSearchResults();
